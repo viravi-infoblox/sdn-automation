@@ -1,0 +1,774 @@
+{
+    "POST":{},
+    "GET": {
+            "/api/v1/self":{
+                "code":200,
+                    "data":[{
+                        "email":"viravi@infoblox.com",
+                        "privileges": [{"orggroup_ids" : ["97706928-6ef6-11e6-821a-02e208b2d34f", "115affc4-00e5-4b65-b86d-477b76e9707a"],
+                                 "msp_name" : "The Mist Demo MSP",
+                                 "org_id" : "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                                 "msp_id" : "43e96c5a-6ef6-11e6-9909-02e208b2d34f",
+                                 "name" : "Live Demo",
+                                 "role" : "read",
+                                 "scope" : "org"
+                        }],
+                        "last_name" : "Ravi",
+                        "first_name" : "Vivek"
+                        }]
+            },
+           "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/sites": {
+                "code":200,
+                    "data":[{
+                      "rftemplate_id" : "undef",
+                      "country_code" : "GB",
+                      "sitegroup_ids" :  [],
+                      "modified_time" :  1665748576,
+                      "networktemplate_id" :  "undef",
+                      "latlng" :  {
+                                 "lat" :  "51.55588",
+                                     "lng" :  "-0.446475"
+                                   },
+                       "aptemplate_id" :  "undef",
+                       "address" :  "23 Turnstone Cl, Ickenham, Uxbridge UB10 8NW, UK",
+                       "id" :  "8cf1ce77-6563-4cd9-8166-7a6d2fb43a23",
+                       "timezone" :  "Europe/London",
+                       "alarmtemplate_id" :  "undef",
+                       "name" :  "pktest",
+                       "created_time" :  1665748576,
+                       "tzoffset" :  0,
+                       "secpolicy_id" :  "undef",
+                       "org_id" :  "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                       "notes" :  "",
+                       "sitetemplate_id" :  "undef",
+                       "gatewaytemplate_id" :  "undef"
+                     },
+                     {
+                       "rftemplate_id" :  "6f86aaae-2d04-4c88-82af-197dcb23f20d",
+                       "country_code" :  "GB",
+                       "sitegroup_ids" :  [
+                                 "c8608da4-a960-4ee5-8829-f68e87a46bc3"
+                                 ],
+                       "modified_time" :  1634727864,
+                       "networktemplate_id" :  "undef",
+                       "latlng" :  {
+                          "lat" :  "51.502436",
+                          "lng" :  "-0.144578"
+                        },
+                       "aptemplate_id" :  "undef",
+                       "address" :  "London SW1A 1AA, UK",
+                       "id" :  "1f204e1c-20ca-49c7-9be6-2dfc33ad3b50",
+                       "timezone" :  "Europe/London",
+                       "alarmtemplate_id" :  "undef",
+                       "name" :  "Remote-WFH-UK",
+                       "created_time" :  1587419502,
+                       "tzoffset" :  0,
+                       "secpolicy_id" :  "undef",
+                       "org_id" :  "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                       "sitetemplate_id" :  "undef",
+                       "gatewaytemplate_id" :  "undef"
+                     }]
+
+           },
+            "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/networks": {
+                "code":200,
+                    "data":[ {
+                        "vlan_id": 111,
+                        "isolation": false,
+                        "internet_access": {
+                            "enabled": true,
+                            "restricted": false
+                        },
+                        "vpn_access": {
+                            "VPN1": {
+                                "routed": true,
+                                "nat_pool": "",
+                                "static_nat": {},
+                                "destination_nat": {}
+                            }
+                        },
+                        "tenants": {
+                            "T1": {
+                                "addresses": [
+                                "1.1.1.1"
+                                ]
+                            }
+                        },
+                        "id": "9fbde62e-0887-4ee8-9cdc-a04cf507019a",
+                        "name": "NW1",
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1641856368,
+                        "modified_time": 1641856368
+                        }]
+           },
+		   
+            "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/stats/mxedges":{
+                "code":200,
+                    "data":{
+                        "mx_oc_proxy_stat": {},
+                        "memory_stat": {
+                            "total": 8276459520,
+                            "free": 2419716096,
+                            "usage": 70,
+                            "available": 4341194752,
+                            "buffers": 296124416,
+                            "cached": 1707937792,
+                            "swap_cached": 0,
+                            "active": 960065536,
+                            "inactive": 1081032704,
+                            "swap_total": 8497655808,
+                            "swap_free": 8497655808
+                        },
+                        "mxcluster_id": "db05906a-6573-49d5-9830-32c921169aae",
+                        "virtualization_type": "None",
+                        "cpu_stat": {
+                            "cpus": {
+                                "cpu0": {
+                                    "usage": 3,
+                                    "interrupt": 0,
+                                    "idle": 96,
+                                    "user": 1,
+                                    "system": 1
+                                },
+                                "cpu1": {
+                                    "usage": 13,
+                                    "interrupt": 0,
+                                    "idle": 86,
+                                    "user": 3,
+                                    "system": 9
+                                },
+                                "cpu2": {
+                                    "usage": 7,
+                                    "interrupt": 0,
+                                    "idle": 92,
+                                    "user": 2,
+                                    "system": 5
+                                },
+                                "cpu3": {
+                                    "usage": 10,
+                                    "interrupt": 0,
+                                    "idle": 89,
+                                    "user": 2,
+                                    "system": 7
+                                }
+                            },
+                            "usage": 8,
+                            "interrupt": 0,
+                            "idle": 91,
+                            "user": 2,
+                            "system": 6
+                        },
+                        "ip_stat": {
+                            "ips": {
+                        "enp1s0": "10.220.220.10/24,fe80::4262:31ff:fe11:5780/64"
+                        },
+                        "macs": {
+                             "enp1s0": "406231115780"
+                        },
+                        "ip": "10.220.220.10"
+                        },
+                        "hardware_revision": "",
+                        "sensor_stat": {},
+                        "_ttl": 292.5253186225891,
+                        "_id": "00000000-0000-0000-1000-8b758d417ae5",
+                        "last_seen": 1666944106,
+                        "uptime": 14711969,
+                        "service_stat": {
+                            "mxagent": {
+                                "running_state": "Running",
+                                "package_state": "Installed",
+                                "package_version": "3.1.2458-1",
+                                "uptime": 14711940,
+                                "last_seen": 1666944058,
+                                "ext_ip": "99.0.86.164"
+                            },
+                        "mxocproxy": {
+                            "package_state": "NotInstalled"
+                        },
+                        "radsecproxy": {
+                            "running_state": "Running",
+                            "package_state": "Installed",
+                            "package_version": "1.8.2-4.mist.5",
+                            "uptime": 8150232
+                        },
+                        "tunterm": {
+                            "running_state": "Running",
+                            "package_state": "Installed",
+                            "package_version": "0.1.2630+deb10",
+                            "uptime": 6347341,
+                            "last_seen": 1666944106,
+                            "ext_ip": "99.0.86.164"
+                        }
+                        },
+                        "port_stat": {
+                            "port0": {
+                                "up": false,
+                                "speed": 0,
+                                "full_duplex": false,
+                                "tx_bytes": 0,
+                                "tx_pkts": 0,
+                                "tx_errors": 0,
+                                "rx_bytes": 0,
+                                "rx_pkts": 0,
+                                "rx_errors": 0,
+                                "mac": "406231115781",
+                                "state": "blocking"
+                            },
+                            "port1": {
+                                "up": true,
+                                "speed": 1000,
+                                "full_duplex": true,
+                                "tx_bytes": 812786486,
+                                "tx_pkts": 6556436,
+                                "tx_errors": 0,
+                                "rx_bytes": 361963299,
+                                "rx_pkts": 4741225,
+                                "rx_errors": 0,
+                                "mac": "406231115782",
+                                "state": "forwarding",
+                                "lldp_stats": {
+                                    "mgmt_addr": "",
+                                        "system_name": "valinor-srv-1",
+                                        "system_desc": "Juniper Networks, Inc. ex2300-c-12p Ethernet Switch, kernel JUNOS 18.1R3.3, Build date: 2018-08-30 06:00:25…",
+                                        "port_id": "ge-0/0/7",
+                                        "chassis_id": "fc:33:42:e9:3c:ef",
+                                        "port_desc": "ge-0/0/7"
+                                }
+                            },
+                            "port2": {
+                                "up": true,
+                                "speed": 1000,
+                                "full_duplex": true,
+                                "tx_bytes": 0,
+                                "tx_pkts": 0,
+                                "tx_errors": 0,
+                                "rx_bytes": 361982724,
+                                "rx_pkts": 4741259,
+                                "rx_errors": 0,
+                                "mac": "406231115783",
+                                "state": "discarding"
+                            }
+                        },
+                        "num_tunnels": 0,
+                        "tunterm_stat": {
+                        "monitoring_failed": false
+                        },
+                        "lag_stat": {},
+                        "inactive_vlans": {
+                            "wired": [
+                            220,
+                            221,
+                            222,
+                            301,
+                            302
+                        ],
+                        "l2tp": []
+                        },
+                        "name": "LD-ME-CUP",
+                        "model": "ME-100",
+                        "tunterm_ip_config": {
+                        "ip": "10.220.220.20",
+                        "netmask": "255.255.255.0",
+                        "gateway": "10.220.220.1"
+                        },
+                        "tunterm_port_config": {
+                        "separate_upstream_downstream": true,
+                        "upstream_ports": [
+                        "1"
+                        ],
+                        "downstream_ports": [
+                        "0"
+                        ]
+                        },
+                        "services": [
+                        "tunterm"
+                        ],
+                        "oob_ip_config": {
+                            "type": "static",
+                            "ip": "10.220.220.10",
+                            "netmask": "255.255.255.0",
+                            "gateway": "10.220.220.1",
+                            "dns": [
+                            "208.67.222.222",
+                            "8.8.8.8"
+                             ]
+                        },
+                        "mxedge_mgmt": {},
+                        "keypair_time": 1666025016.6908817,
+                        "id": "00000000-0000-0000-1000-8b758d417ae5",
+                        "for_site": false,
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1584924224,
+                        "modified_time": 1666025016,
+                        "magic": "PGBnbqFKcM7oB2Rp3Tc1l4nnC6FE0NMYug0XQP6NvKacjx7aWTvQ53hhLb5a26Yu",
+                        "tunterm_id": "79c7927a-0c4e-4111-b9a0-19f6ad29ae9a",
+                        "site_id": "00000000-0000-0000-0000-000000000000",
+                        "mac": "8b758d417ae5",
+                        "mxagent_registered": true,
+                        "tunterm_registered": true,
+                        "status": "connected" 
+					}
+            },
+
+            "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/stats/devices?type=all":{
+                "code":200,
+                    "data":[{
+                        "ip": "66.129.234.178",
+                        "version": "5.5.0-43",
+                        "uptime": 11934215,
+                        "last_seen": 1665993951,
+                        "module_stat": [
+                        {
+                            "last_seen": 1665993921,
+                            "serial": "",
+                            "node_name": "node1",
+                            "model": "SSR",
+                            "router_name": "seattle-branch1",
+                            "hardware_model": "VMware, Inc. - VMware Virtual Platform",
+                            "version": "5.5.0-43",
+                            "mac": "02000194b24d",
+                            "uptime": 11934215
+                        } ],
+                        "_ttl": 15551985,
+                        "_id": "02000194b24d",
+                        "id": "00000000-0000-0000-1000-02000194b24d",
+                        "name": "seattlesite1",
+                        "site_id": "9b9b48f1-15a4-459e-86cc-9cbec9005983",
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1640107141,
+                        "modified_time": 1665755854,
+                        "map_id": null,
+                        "mac": "02000194b24d",
+                        "serial": "22aca25305070f39ad5e08021cb72b7c",
+                        "model": "SSR",
+                        "hw_rev": "",
+                        "type": "gateway",
+                        "tag_uuid": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "tag_id": 2372564,
+                        "deviceprofile_id": null,
+                        "status": "connected"
+                    },
+                    {	
+				        "ip": "1.1.1.1",
+					    "version": "22.2I-20220508.0.2028",
+						"uptime": 1516259,
+						"last_seen": 1667288271,
+						"module_stat": [
+						{
+							"memory_stat": {
+								"usage": 15
+							},
+							"vc_state": "present",
+							"boot_partition": "junos",
+							"recovery_version": "22.2I-20220508.0.2028",
+							"poe": {},
+							"backup_version": "",
+							"pending_version": "",
+							"type": "fpc",
+							"cpu_stat": {
+								"interrupt": 0,
+								"idle": 91,
+								"user": 3,
+								"system": 6,
+								"load_avg": [
+									    0.7,
+										0.58,
+										0.5
+								]
+							},
+							"version": "22.2I-20220508.0.2028",
+							"fpc_idx": 0,
+							"mac": "74e7985ba4aa",
+							"fans": [
+							{
+								"name": "Fan Tray 0 Fan 0",
+								"status": "ok",
+								"airflow": "out",
+								"rpm": 0
+							}
+							],
+							"uptime": 1516260,
+							"_idx": 0,
+							"temperatures": [
+							{
+								"name": "Thermal board Sensor 1",
+								"status": "ok",
+								"celsius": 43.0
+							},
+							{
+								"name": "Thermal board Sensor 2",
+								"status": "ok",
+								"celsius": 32.0
+							},
+							{
+								"name": "Thermal board Sensor 3",
+								"status": "ok",
+								"celsius": 28.0
+							},
+							{
+								"name": "Thermal board Sensor 4",
+								"status": "ok",
+								"celsius": 28.0
+							},
+							{
+								"name": "PFE Die Sensor",
+								"status": "ok",
+								"celsius": 54.0
+							}
+							],
+							"vc_links": [],
+							"serial": "FG1822AN0020",
+							"psus": [
+							{
+								"name": "Power Supply 0",
+								"status": "ok"
+							}
+							],
+							"vc_role": "master",
+							"model": "EX4100-F-48T",
+							"pics": [
+							{
+								"port_groups": [
+								{
+									"count": 48,
+									"type": "GE"
+							    }
+								],
+							    "index": 0,
+							    "model_number": "EX4100-F-48T"
+							},
+							{
+								"port_groups": [
+								{
+									"count": 4,
+									"type": "SFP/SFP+"
+								}
+								],
+								"index": 1,
+								"model_number": "EX4100-F-48T"
+							},
+							{
+								"port_groups": [
+								{
+									"count": 4,
+									"type": "SFP/SFP+"
+								}
+								],
+								"index": 2,
+								"model_number": "EX4100-F-48T"
+							}
+							]
+						}
+						],
+						"_ttl": 15551973,
+						"_id": "74e7985ba4aa",
+						"notes": "",
+						"ip_config": {
+						   "type": "dhcp",
+						   "network": "default"
+						},
+						"id": "00000000-0000-0000-1000-74e7985ba4aa",
+						"name": "EX4100-Access3",
+						"site_id": "978c48e6-6ef6-11e6-8bbf-02e208b2d34f",
+						"org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+						"created_time": 1657573982,
+						"modified_time": 1666128658,
+						"map_id": null,
+						"mac": "74e7985ba4aa",
+						"serial": "FG1822AN0020",
+						"model": "EX4100-F-48T",
+					    "hw_rev": "4",
+						"type": "switch",
+						"tag_uuid": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+						"tag_id": 2592253,
+						"deviceprofile_id": null,
+						"status": "connected"
+					},													
+                    {
+                        "locating": false,
+                        "orientation": 0,
+                        "x": 995.0714211354918,
+                        "y": 1320.668399372386,
+                        "height": 0,
+                        "notes": "",
+                        "x_m": 32.09722260947589,
+                        "y_m": 42.599743804906005,
+                        "id": "00000000-0000-0000-1000-5c5b35ae3f1b",
+                        "name": "Deeyo AP 5",
+                        "site_id": "49ff76e0-a283-4e7d-b38d-041f1e9aff3c",
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1663695369,
+                        "modified_time": 1663695645,
+                        "map_id": "077083d8-4bc0-4b36-8ae1-832005e9ef8b",
+                        "mac": "5c5b35ae3f1b",
+                        "serial": "A00121902118F",
+                        "model": "AP41",
+                        "hw_rev": "E08",
+                        "type": "ap",
+                        "tag_uuid": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "tag_id": 2678207,
+                        "deviceprofile_id": null,
+                        "status": "disconnected"
+                    },
+                    {
+                      "ip": "10.2.16.238",
+                      "locating": false,
+                      "orientation": 0,
+                        "x": 995.0714211354918,
+                        "y": 1320.668399372386,
+                        "height": 0,
+                        "notes": "",
+                        "x_m": 32.09722260947589,
+                        "y_m": 42.599743804906005,
+                        "id": "00000000-0000-0000-1000-5c5b35ae3f1b",
+                        "name": "Deeyo AP 5",
+                        "site_id": "49ff76e0-a283-4e7d-b38d-041f1e9aff3c",
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1663695369,
+                        "modified_time": 1663695645,
+                        "map_id": "077083d8-4bc0-4b36-8ae1-832005e9ef8b",
+                        "mac": "5c5b35ae3f1b",
+                        "serial": "A00121902118F",
+                        "model": "AP41",
+                        "hw_rev": "E08",
+                        "type": "ap",
+                        "tag_uuid": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "tag_id": 2678207,
+                        "deviceprofile_id": null,
+                        "status": "disconnected"
+                    }
+					]
+            },
+			
+            "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/mxedges": {
+                "code":200,
+                    "data":[{
+                        "name": "LD-ME-CUP",
+                        "model": "ME-100",
+                        "tunterm_ip_config": {
+                            "ip": "10.220.220.20",
+                            "netmask": "255.255.255.0",
+                            "gateway": "10.220.220.1"
+                        },
+                        "tunterm_port_config": {
+                            "separate_upstream_downstream": true,
+                            "upstream_ports": [
+                            "1"],
+                            "downstream_ports": [
+                            "0"]
+                        },
+                        "services": ["tunterm"],
+                        "id": "00000000-0000-0000-1000-8b758d417ae5",
+                        "for_site": false,
+                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                        "created_time": 1584924224,
+                        "modified_time": 1593389360,
+                        "magic": "PGBnbqFKcM7oB2Rp3Tc1l4nnC6FE0NMYug0XQP6NvKacjx7aWTvQ53hhLb5a26Yu",
+                        "mxcluster_id": "db05906a-6573-49d5-9830-32c921169aae",
+                        "tunterm_id": "79c7927a-0c4e-4111-b9a0-19f6ad29ae9a",
+                        "site_id": "00000000-0000-0000-0000-000000000000",
+                        "mac": "8b758d417ae5",
+                        "mxagent_registered": true,
+                        "tunterm_registered": true
+                    }]
+
+            },
+
+            "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/stats/ports/search": {
+                "code":200,
+                    "data":[{
+                        "results": [
+                        {
+                            "rx_bcast_pkts": 180,
+                            "tx_bcast_pkts": 232,
+                            "mac": "c0bfa70222a0",
+                            "speed": 1000,
+                            "stp_role": "designated",
+                            "neighbor_system_name": "EVPN-EX4300-WAN_router",
+                            "tx_pkts": 3765234,
+                            "tx_bps": 1168,
+                            "media_type": "copper",
+                            "tx_mcast_pkts": 3765002,
+                            "port_mode": "access",
+                            "rx_bytes": 83220897,
+                            "up": true,
+                            "tx_bytes": 260805136,
+                            "rx_mcast_pkts": 1001454,
+                            "neighbor_port_desc": "mge-0/0/46",
+                            "stp_state": "forwarding",
+                            "rx_pkts": 1001634,
+                            "timestamp": 1667462241.833,
+                            "neighbor_mac": "50c7099b9ca4",
+                            "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                            "full_duplex": true,
+                            "site_id": "978c48e6-6ef6-11e6-8bbf-02e208b2d34f",
+                            "port_id": "ge-0/0/47",
+                            "ops": 232,
+                            "port_mac": "c0bfa70222d2"
+                        }]
+                    }]
+            },
+	   
+	        "/api/v1/orgs/9777c1a0-6ef6-11e6-8bbf-02e208b2d34f/devices/search?perPage=1000": {
+                "code":200,
+                    "data": [{
+                        "start": 1667884654.0550444,
+                        "end": 1667971054.0550444,
+                        "limit": 100,
+                        "total": 1,
+                        "results":[ 
+                        {
+                            "lldp_power_draw": 13000,
+                            "lldp_power_allocated": 15300,
+                            "ip": "10.0.0.112",
+                            "lldp_port_desc": "ge-0/0/3",
+                            "lldp_chassis_id": "1c:9c:8c:ba:10:8e",
+                            "lldp_system_desc": "Juniper Networks, Inc. ex2300-c-12p Ethernet Switch, kernel JUNOS 18.1R3.3, Build date: 2018-08-30 06:00:25 UTC Copyright (c) 1996-2018 Juniper Networks, Inc.",
+                            "lldp_system_name": "aconcagua",
+                            "lldp_port_id": "516",
+                            "band_24_channel": 1,
+                            "version": "0.8.21602",
+                            "wlans": [
+                            {
+                                "id": "c40bdf03-892a-40ea-bc01-003b65fca9b2",
+                                "ssid": "mist-remote-wfh"
+                            }
+                            ],
+                            "band_5_channel": 36,
+                            "mac": "d420b085faff",
+                            "uptime": 4690277,
+                            "ext_ip": "76.133.48.87",
+                            "hostname": [
+                            "KRaj-WFH"
+                            ],
+                            "timestamp": 1667968752.34,
+                            "eth0_port_speed": 1000,
+                            "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+                            "mxedge_id": "00000000-0000-0000-1000-8b758d417ae5",
+                            "map_id": "01fc6e84-43ed-4b3b-a227-bded6654439e",
+                            "site_id": "eb0e1671-7a6b-472b-94c3-c187dafe5274",
+                            "model": "AP12",
+                            "sku": "AP12-US",
+                            "mxtunnel_status": "down",
+                            "last_hostname": "KRaj-WFH"
+                        }]
+                    }]
+            },
+
+            "/api/v1/sites/1f204e1c-20ca-49c7-9be6-2dfc33ad3b50/stats/devices?type=all": {
+ 		        "code":200,
+ 		            "data":[
+ 		            {
+ 		                "serial": "HV3620020008",
+ 	                        "last_seen": 1668583871,
+ 		                "ip": "10.1.1.102",
+ 		                "mac": "c0bfa70222a0",
+ 		                "version": "20.4R3-S2.6",
+ 		                "_id": "78507cf57567",
+ 		                "config_status": "NO_CHANGE",
+ 		                "service_stat": {},
+ 		                "if_stat": {
+ 		                    "port_id": {
+ 		                        "tx_pkts": 4910804,
+ 		                        "vlan": 1,
+ 		                        "rx_pkts": 2934077,
+ 		                        "rx_bytes": 287826785,
+ 		                        "port_id": "ge-0/0/47",
+ 		                        "up": true,
+ 		                        "ips": [
+ 	                            "10.1.1.102/24",
+                                    "2a02:6b8:ab92:ad73:60a2:3149:c5d1:67a4/64"
+ 		                        ],
+ 		                        "tx_bytes": 954329549
+ 		                    }
+ 		                },
+ 	                        "org_id": "9777c1a0-6ef6-11e6-8bbf-02e208b2d34f",
+ 		                "dhcpd_stat": {},
+ 		                "site_id": "e032122e-5125-4de0-b313-9c8cca7fa35e",
+ 		                "status": "connected",
+ 		                "auto_upgrade_stat": {},
+ 		                "notes": ""
+ 		            }
+ 		            ]
+ 		    },
+             "/api/v1/sites/00000000-0000-0000-0000-000000000000/stats/devices?type=all": {
+                "code": 200,
+                "data": [{
+                  }]
+             },
+            "/api/v1/sites/8cf1ce77-6563-4cd9-8166-7a6d2fb43a23/stats/devices?type=all": {
+                "code": 200,
+                "data": [{
+                  }]
+             },
+             "/api/v1/sites/49ff76e0-a283-4e7d-b38d-041f1e9aff3c/stats/clients": {
+                "code": 200,
+                "data": [{
+                    "mac": "9a9295d0eb3e",
+                    "site_id": "49ff76e0-a283-4e7d-b38d-041f1e9aff3c",
+                    "assoc_time": 1669641100,
+                    "family": "",
+                    "model": "",
+                    "os": "Linux",
+                    "manufacture": "Unknown",
+                    "bssid": "d420b0b08e16",
+                    "hostname": "android-13690264d3d7c4ec",
+                    "ip": "192.168.1.37",
+                    "ap_mac": "d420b083e3f0",
+                    "ap_id": "00000000-0000-0000-1000-d420b083e3f0",
+                    "last_seen": 1669645604,
+                    "uptime": 4504,
+                    "ssid": "mist-33-testing",
+                    "wlan_id": "070e49f0-b683-40e3-a60d-48a6d9565b4c",
+                    "dual_band": true,
+                    "is_guest": false,
+                    "key_mgmt": "WPA2-PSK/CCMP",
+                    "group": "",
+                    "band": "5",
+                    "channel": 36,
+                    "vlan_id": "1",
+                    "proto": "ax",
+                    "rssi": -53,
+                    "snr": 42,
+                    "idle_time": 0.0,
+                    "tx_rate": 573.5,
+                    "rx_rate": 6.0,
+                    "tx_pkts": 9076,
+                    "rx_pkts": 28882,
+                    "tx_bytes": 2816311,
+                    "rx_bytes": 3444072,
+                    "tx_retries": 411,
+                    "rx_retries": 101,
+                    "tx_bps": 477,
+                    "rx_bps": 1452,
+                    "x": 1086.194826,
+                    "y": 1248.099332,
+                    "x_m": 20.494242,
+                    "y_m": 23.549044,
+                    "num_locating_aps": 1,
+                    "map_id": "1ddf3fe6-8137-4257-a3c5-347c0e27e79a",
+                    "_ttl": 269,
+                    "_id": "9a9295d0eb3e"
+                }]
+             },
+             "/api/v1/sites/49ff76e0-a283-4e7d-b38d-041f1e9aff3c/stats/clients?wired=true": {
+                "code": 200,
+                "data": [{
+                    "mac": "e45f01319a43",
+                    "site_id": "49ff76e0-a283-4e7d-b38d-041f1e9aff3c",
+                    "ap_id": "00000000-0000-0000-1000-d420b085fdff",
+                    "rx_pkts": 0,
+                    "tx_pkts": 0,
+                    "rx_bytes": 0,
+                    "tx_bytes": 0,
+                    "eth_port": "eth1",
+                    "auth_state": "authorizedForCompleteAccess",
+                    "vlan_id": 70,
+                    "last_seen": 1645060912.0751352,
+                    "uptime": 8723766,
+                    "_ttl": 277,
+                    "_id": "003ee1bec926"
+                }]
+             }
+          }
+}

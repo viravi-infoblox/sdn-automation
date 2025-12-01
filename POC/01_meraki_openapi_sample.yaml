@@ -1,0 +1,442 @@
+openapi: 3.0.0
+info:
+  title: Cisco Meraki Dashboard API (Sample for POC)
+  description: Sample OpenAPI spec for SDN Agent POC demonstration
+  version: 1.0.0
+  contact:
+    name: Cisco Meraki API Support
+    url: https://developer.cisco.com/meraki/api-v1/
+
+servers:
+  - url: https://api.meraki.com/api/v1
+    description: Meraki Dashboard API
+
+security:
+  - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Cisco-Meraki-API-Key
+      
+  schemas:
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "123456"
+        name:
+          type: string
+          example: "My Organization"
+        url:
+          type: string
+          example: "https://dashboard.meraki.com/o/abc123/manage/organization/overview"
+          
+    Network:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "L_123456789"
+        organizationId:
+          type: string
+          example: "123456"
+        name:
+          type: string
+          example: "Main Office"
+        timeZone:
+          type: string
+          example: "America/Los_Angeles"
+        type:
+          type: string
+          enum: [appliance, switch, wireless, combined]
+          example: "combined"
+          
+    Device:
+      type: object
+      required:
+        - serial
+        - model
+      properties:
+        serial:
+          type: string
+          example: "Q2AB-C3DE-F4GH"
+          description: Device serial number
+        mac:
+          type: string
+          example: "00:11:22:33:44:55"
+        model:
+          type: string
+          example: "MS220-8P"
+        name:
+          type: string
+          example: "Office Switch"
+        networkId:
+          type: string
+          example: "L_123456789"
+        firmware:
+          type: string
+          example: "switch-11-31"
+        lanIp:
+          type: string
+          example: "192.168.1.1"
+        wan1Ip:
+          type: string
+          example: "10.0.0.1"
+        wan2Ip:
+          type: string
+          example: "10.0.0.2"
+        publicIp:
+          type: string
+          example: "203.0.113.1"
+        claimedAt:
+          type: string
+          format: date-time
+          example: "2019-08-02T09:11:58.869297Z"
+          
+    DeviceStatus:
+      type: object
+      properties:
+        serial:
+          type: string
+          example: "Q2AB-C3DE-F4GH"
+        networkId:
+          type: string
+          example: "L_123456789"
+        status:
+          type: string
+          enum: [online, offline, alerting]
+          example: "online"
+        lanIp:
+          type: string
+          example: "192.168.1.1"
+        publicIp:
+          type: string
+          example: "203.0.113.1"
+          
+    SwitchPort:
+      type: object
+      properties:
+        portId:
+          type: string
+          example: "1"
+        name:
+          type: string
+          example: "Uplink Port"
+        enabled:
+          type: boolean
+          example: true
+        type:
+          type: string
+          enum: [access, trunk]
+          example: "trunk"
+        vlan:
+          type: integer
+          example: 10
+        allowedVlans:
+          type: string
+          example: "1,10,20,30"
+        poeEnabled:
+          type: boolean
+          example: true
+        status:
+          type: string
+          enum: [Connected, Disconnected]
+          example: "Connected"
+        speed:
+          type: string
+          example: "1 Gbps"
+        duplex:
+          type: string
+          example: "full"
+          
+    LldpCdpInfo:
+      type: object
+      properties:
+        sourceMac:
+          type: string
+          example: "00:11:22:33:44:55"
+        ports:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              cdp:
+                type: object
+                properties:
+                  deviceId:
+                    type: string
+                    example: "switch.example.com"
+                  portId:
+                    type: string
+                    example: "GigabitEthernet1/0/1"
+                  address:
+                    type: string
+                    example: "192.168.1.2"
+              lldp:
+                type: object
+                properties:
+                  systemName:
+                    type: string
+                    example: "core-switch-01"
+                  portId:
+                    type: string
+                    example: "Gi1/0/1"
+                  managementAddress:
+                    type: string
+                    example: "192.168.1.2"
+                    
+    StaticRoute:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1234567890"
+        name:
+          type: string
+          example: "Corporate Network"
+        subnet:
+          type: string
+          example: "192.168.100.0/24"
+        gatewayIp:
+          type: string
+          example: "192.168.1.1"
+          
+    Ssid:
+      type: object
+      properties:
+        number:
+          type: integer
+          example: 0
+        name:
+          type: string
+          example: "Corporate WiFi"
+        enabled:
+          type: boolean
+          example: true
+        splashPage:
+          type: string
+          example: "None"
+        authMode:
+          type: string
+          example: "psk"
+        encryptionMode:
+          type: string
+          example: "wpa"
+
+paths:
+  /organizations:
+    get:
+      summary: List the organizations
+      description: List the organizations that the user has privileges on
+      operationId: getOrganizations
+      tags:
+        - organizations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+                  
+  /organizations/{organizationId}/networks:
+    get:
+      summary: List networks in organization
+      description: List the networks in an organization
+      operationId: getOrganizationNetworks
+      tags:
+        - networks
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: perPage
+          in: query
+          schema:
+            type: integer
+            default: 1000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Network'
+                  
+  /organizations/{organizationId}/devices:
+    get:
+      summary: List devices in organization
+      description: List the devices in an organization
+      operationId: getOrganizationDevices
+      tags:
+        - devices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: perPage
+          in: query
+          schema:
+            type: integer
+            default: 1000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+                  
+  /organizations/{organizationId}/devices/statuses:
+    get:
+      summary: List device statuses
+      description: List the status of every Meraki device in the organization
+      operationId: getOrganizationDevicesStatuses
+      tags:
+        - devices
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeviceStatus'
+                  
+  /devices/{serial}:
+    get:
+      summary: Get device details
+      description: Return a single device
+      operationId: getDevice
+      tags:
+        - devices
+      parameters:
+        - name: serial
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+                
+  /devices/{serial}/switch/ports:
+    get:
+      summary: List switch ports
+      description: List the switch ports for a switch
+      operationId: getDeviceSwitchPorts
+      tags:
+        - switch
+      parameters:
+        - name: serial
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwitchPort'
+                  
+  /devices/{serial}/lldpCdp:
+    get:
+      summary: Get LLDP and CDP information
+      description: List LLDP and CDP information for a device
+      operationId: getDeviceLldpCdp
+      tags:
+        - devices
+      parameters:
+        - name: serial
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: timespan
+          in: query
+          schema:
+            type: integer
+            description: The timespan for which information will be fetched (seconds)
+            maximum: 2592000
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LldpCdpInfo'
+                
+  /networks/{networkId}/appliance/staticRoutes:
+    get:
+      summary: List static routes
+      description: List the static routes for an MX or teleworker network
+      operationId: getNetworkApplianceStaticRoutes
+      tags:
+        - appliance
+      parameters:
+        - name: networkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StaticRoute'
+                  
+  /networks/{networkId}/wireless/ssids:
+    get:
+      summary: List SSIDs
+      description: List the SSIDs in a network
+      operationId: getNetworkWirelessSsids
+      tags:
+        - wireless
+      parameters:
+        - name: networkId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ssid'

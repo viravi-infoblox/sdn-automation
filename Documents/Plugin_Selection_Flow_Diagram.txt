@@ -1,0 +1,288 @@
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║              SDN AGENT - PLUGIN SELECTION FLOW DIAGRAM                            ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ PHASE 1: OpenAPI Specification Analysis                                        │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+    Input: vendor_openapi.yaml
+       │
+       ▼
+┌──────────────────────────┐
+│ Parse OpenAPI Spec       │
+│ - Paths & Endpoints      │
+│ - Request/Response Schema│
+│ - Authentication         │
+└────────┬─────────────────┘
+         │
+         ▼
+┌──────────────────────────┐
+│ Extract Endpoints        │
+│                          │
+│ GET /devices             │ ──┐
+│ GET /devices/{id}        │   │
+│ GET /devices/{id}/ports  │   │  Categorized Endpoints
+│ GET /devices/{id}/lldp   │   │
+│ GET /devices/{id}/vlans  │   │
+└────────┬─────────────────┘   │
+         │                     │
+         ▼                     │
+┌──────────────────────────┐   │
+│ Analyze Response Schemas │◄──┘
+│                          │
+│ /devices response:       │
+│ {                        │
+│   "id": "string",        │
+│   "name": "string",      │
+│   "model": "string",     │
+│   "serial": "string",    │
+│   "ipAddress": "string"  │
+│ }                        │
+└────────┬─────────────────┘
+         │
+         ▼
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ PHASE 2: Pattern Recognition & Classification                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────┐
+│ Field Pattern Analysis                                       │
+│                                                              │
+│ Response contains:                   Maps to:               │
+│ ✓ id, name, model, serial      ───▶  Device Discovery       │
+│ ✓ ipAddress, version           ───▶  System Information     │
+│                                                              │
+│ Response contains:                   Maps to:               │
+│ ✓ ports, interfaces            ───▶  Interface Data         │
+│ ✓ name, mac, status, speed     ───▶  Port Information       │
+│                                                              │
+│ Response contains:                   Maps to:               │
+│ ✓ lldp, cdp, neighbors         ───▶  Topology Discovery     │
+│ ✓ remoteDevice, remotePort     ───▶  Neighbor Information   │
+└────────┬─────────────────────────────────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────┐
+│ Category Assignment                                          │
+│                                                              │
+│ GET /devices              → Device Discovery                 │
+│ GET /devices/{id}         → System Information               │
+│ GET /devices/{id}/ports   → Interfaces                       │
+│ GET /devices/{id}/lldp    → Topology (CDP/LLDP)             │
+│ GET /devices/{id}/vlans   → VLAN Configuration              │
+└────────┬─────────────────────────────────────────────────────┘
+         │
+         ▼
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ PHASE 3: Plugin Mapping                                                        │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ NetMRI Plugin Database (40+ Available Plugins)                       │
+│                                                                      │
+│  Data Category        →  Plugin Name         →  Module Path         │
+│  ═══════════════════════════════════════════════════════════════    │
+│  Device Discovery     →  SaveDevices         →  SaveDevices.pm      │
+│  System Information   →  SaveSystemInfo      →  SaveSystemInfo.pm   │
+│  Interfaces           →  SaveSdnFabricInterface  → SaveSdnFabricInterface.pm│
+│  CDP Neighbors        →  SaveCDP             →  SaveCDP.pm           │
+│  LLDP Neighbors       →  SaveLLDP            →  SaveLLDP.pm          │
+│  Switch Ports         →  SaveSwitchPortObject → SaveSwitchPortObject.pm│
+│  VLANs                →  SaveVlanObject      →  SaveVlanObject.pm    │
+│  Wireless             →  SaveWireless        →  SaveWireless.pm      │
+│  Endpoints/Clients    →  SaveSdnEndpoint     →  SaveSdnEndpoint.pm   │
+│  Routing              →  SaveipRouteTable    →  SaveipRouteTable.pm  │
+│  ARP Table            →  SaveatObject        →  SaveatObject.pm      │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Plugin Selection Matrix                                              │
+│                                                                      │
+│ API Endpoint              Required Fields         Selected Plugin   │
+│ ═══════════════════════════════════════════════════════════════════ │
+│ GET /devices              id, name, model         SaveDevices       │
+│ GET /devices/{id}         version, uptime         SaveSystemInfo    │
+│ GET /devices/{id}/ports   name, mac, status       SaveSdnFabricInt.│
+│ GET /devices/{id}/lldp    remoteDevice, port      SaveCDP, SaveLLDP │
+│ GET /devices/{id}/vlans   vlanId, name            SaveVlanObject    │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ PHASE 4: Validation & Field Coverage Analysis                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Field Coverage Check                                                 │
+│                                                                      │
+│ Plugin: SaveDevices                                                  │
+│ Required Fields:                 API Response Fields:               │
+│ ✓ SdnControllerId               ✓ fabricId                         │
+│ ✓ SdnDeviceDN                   ✓ id                               │
+│ ✓ Name                          ✓ name                             │
+│ ✓ Model                         ✓ model                            │
+│ ✓ Serial                        ✓ serial                           │
+│ ✓ IPAddress                     ✓ ipAddress                        │
+│ ✓ Vendor                        ─ (set by agent)                   │
+│                                                                      │
+│ Coverage: 85% ✓ (threshold: 80%)                                   │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Data Transformation Validation                                       │
+│                                                                      │
+│ API Field         →  NetMRI Field        Transformation Required    │
+│ ══════════════════════════════════════════════════════════════════  │
+│ id                →  SdnDeviceDN         Direct mapping             │
+│ ipAddress         →  IPAddress           Direct mapping             │
+│ model             →  Model               Direct mapping             │
+│ deviceType        →  NodeRole            "Vendor " + deviceType     │
+│ lastUpdated       →  modTS               Date format conversion     │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ PHASE 5: Code Generation                                                       │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Generate Plugin Registration Code                                    │
+│                                                                      │
+│ # Auto-generated in SDN_Server/NewVendor.pm                         │
+│ sub new {                                                            │
+│     my $class = shift;                                              │
+│     my $self = $class->SUPER::new(@_);                             │
+│                                                                      │
+│     # Register required plugins                                     │
+│     $self->{autoload_save_methods}->{$_} = 1 foreach qw(           │
+│         Devices                                                     │
+│         SystemInfo                                                  │
+│         SdnFabricInterface                                         │
+│         CDP                                                         │
+│         LLDP                                                        │
+│     );                                                              │
+│                                                                      │
+│     # Register conditional plugins                                  │
+│     if ($self->_has_wireless_api()) {                              │
+│         $self->{autoload_save_methods}->{Wireless} = 1;           │
+│     }                                                               │
+│                                                                      │
+│     return bless $self, $class;                                    │
+│ }                                                                    │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Generate obtain* Methods with Plugin Calls                          │
+│                                                                      │
+│ sub obtainSystemInfo {                                              │
+│     my $self = shift;                                               │
+│     my ($data, $err) = $self->{api_helper}->get_device($device_id);│
+│                                                                      │
+│     # Transform API response to NetMRI format                       │
+│     my $system_data = {                                             │
+│         Name => $data->{name},                                      │
+│         Model => $data->{model},                                    │
+│         SWVersion => $data->{version},                             │
+│         UpTime => $data->{uptime}                                   │
+│     };                                                              │
+│                                                                      │
+│     # Plugin automatically selected via AUTOLOAD                    │
+│     $self->saveSystemInfo($system_data);                           │
+│     #         ▲                                                      │
+│     #         └── AUTOLOAD intercepts                              │
+│     #             └── Calls getPlugin('SaveSystemInfo')            │
+│     #                 └── Loads & runs SaveSystemInfo.pm           │
+│ }                                                                    │
+└────────┬─────────────────────────────────────────────────────────────┘
+         │
+         ▼
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│ RUNTIME: Plugin Execution Flow                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│ Execution Trace                                                      │
+│                                                                      │
+│  1. $self->saveSystemInfo($data)                                    │
+│      │                                                               │
+│      ▼                                                               │
+│  2. AUTOLOAD intercepts (method doesn't exist)                      │
+│      │                                                               │
+│      ▼                                                               │
+│  3. Extracts "SystemInfo" from "saveSystemInfo"                     │
+│      │                                                               │
+│      ▼                                                               │
+│  4. Calls getPlugin('SaveSystemInfo')                               │
+│      │                                                               │
+│      ▼                                                               │
+│  5. Loads NetMRI::SDN::Plugins::SaveSystemInfo                      │
+│      │                                                               │
+│      ▼                                                               │
+│  6. Creates plugin instance: $plugin = SaveSystemInfo->new($self)   │
+│      │                                                               │
+│      ▼                                                               │
+│  7. Executes: $plugin->run($data)                                   │
+│      │                                                               │
+│      ├─▶ Validates data against required fields                     │
+│      ├─▶ Transforms data to database format                         │
+│      ├─▶ Inserts/Updates database table                            │
+│      └─▶ Returns success/failure                                    │
+└──────────────────────────────────────────────────────────────────────┘
+
+═══════════════════════════════════════════════════════════════════════════════════
+
+SUMMARY: Plugin Selection Decision Criteria
+
+┌────────────────────────────────────────────────────────────────────┐
+│ Decision Factor              Weight    Impact                      │
+│ ═══════════════════════════════════════════════════════════════   │
+│ Field Pattern Match          40%      Primary classification       │
+│ Response Schema Complexity   25%      Plugin capability match      │
+│ Endpoint URL Pattern         20%      Context-based selection      │
+│ Device Type/Role             15%      Conditional plugins          │
+└────────────────────────────────────────────────────────────────────┘
+
+Example: How Agent Selects Plugins for New Vendor
+
+Input: GET /api/v1/network/devices/{id}/interfaces
+Response Schema: {
+    "interfaces": [
+        {
+            "name": "eth0",
+            "macAddress": "00:11:22:33:44:55",
+            "status": "up",
+            "speed": "1000",
+            "mtu": 1500
+        }
+    ]
+}
+
+Agent Decision Process:
+1. ✓ Detects "interfaces" array          → Interface category
+2. ✓ Finds required fields (name, mac)   → 90% field coverage
+3. ✓ Maps to SaveSdnFabricInterface      → Plugin selected
+4. ✓ Generates obtainInterfaces() method
+5. ✓ Auto-calls saveInterfaces($data)
+6. ✓ AUTOLOAD routes to SaveSdnFabricInterface plugin
+
+Result: Fully automated plugin selection with intelligent field mapping!
+

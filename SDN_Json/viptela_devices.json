@@ -1,0 +1,350 @@
+{
+    "POST":{
+        "/j_security_check":[
+            {"j_username":"admin","j_password":"admin"}
+        ]
+    },
+    "GET": {
+        "/dataservice/client/token?json=true":{
+            "code":200,
+            "data":{"token":"4AF9E049005247E983AF81A5825F7FFE"}
+        },
+        "/logout":{
+            "code":302,
+            "data":{"_location":"/welcome.html?nocache="}
+        },
+        "/dataservice/device":{
+            "code":200,
+            "data":{"data":[{"deviceId":"4.4.4.90","system-ip":"4.4.4.90","host-name":"vmanage","reachability":"reachable","status":"normal","personality":"vmanage","device-type":"vmanage","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585753003633,"domain-id":"0","board-serial":"07","certificate-validity":"Valid","max-controllers":"0","uuid":"4854266f-a8ad-4068-9651-d4e834384f51","controlConnections":"3","device-model":"vmanage","version":"18.3.1.1","connectedVManages":["\"4.4.4.90\""],"site-id":"100","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1585693440000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.90","total_cpu_count":"4","layoutLevel":1},{"deviceId":"4.4.4.70","system-ip":"4.4.4.70","host-name":"vsmart","reachability":"reachable","status":"normal","personality":"vsmart","device-type":"vsmart","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585752996649,"domain-id":"1","board-serial":"09","certificate-validity":"Valid","uuid":"da6c566f-eb5f-4731-a89a-ff745661027c","controlConnections":"3","device-model":"vsmart","version":"18.3.0","connectedVManages":["\"4.4.4.90\""],"site-id":"100","ompPeers":"2 (4)","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1572018900000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.70","total_cpu_count":"2","layoutLevel":2},{"deviceId":"4.4.4.80","system-ip":"4.4.4.80","host-name":"vbond","reachability":"reachable","status":"normal","personality":"vbond","device-type":"vbond","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585693613824,"board-serial":"08","certificate-validity":"Valid","uuid":"455407de-9327-467e-a0d2-d3444659dbb2","controlConnections":"--","device-model":"vedge-cloud","version":"18.3.1","connectedVManages":["\"4.4.4.90\""],"site-id":"100","ompPeers":"--","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1575765480000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.80","total_cpu_count":"4","linux_cpu_count":"1","layoutLevel":3},{"deviceId":"4.4.4.60","system-ip":"4.4.4.60","host-name":"vedge01","reachability":"reachable","status":"normal","personality":"vedge","device-type":"vedge","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585752997902,"bfdSessionsUp":2,"domain-id":"1","board-serial":"52DC4E09","certificate-validity":"Valid","max-controllers":"0","uuid":"4af9e049-0052-47e9-83af-81a5825f7ffe","bfdSessions":"2 (3)","controlConnections":"2","device-model":"vedge-cloud","version":"18.3.1","connectedVManages":["\"4.4.4.90\""],"site-id":"200","ompPeers":"1","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1577717160000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.60","total_cpu_count":"8","linux_cpu_count":"1","layoutLevel":4},{"deviceId":"4.4.4.66","system-ip":"4.4.4.66","host-name":"vedge01","reachability":"unreachable","status":"normal","personality":"vedge","device-type":"vedge","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585752997902,"bfdSessionsUp":2,"domain-id":"1","board-serial":"52DC4E09","certificate-validity":"Valid","max-controllers":"0","uuid":"4af9e049-0052-47e9-83af-81a5825f7ffe","bfdSessions":"2 (3)","controlConnections":"2","device-model":"vedge-cloud","version":"18.3.1","connectedVManages":["\"4.4.4.90\""],"site-id":"200","ompPeers":"1","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1577717160000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.66","total_cpu_count":"8","linux_cpu_count":"1","layoutLevel":4}]}
+        },
+
+        "/dataservice/device?deviceId=4.4.4.90":{
+            "code":200,
+            "data":{"data":[{"deviceId":"4.4.4.90","system-ip":"4.4.4.90","host-name":"vmanage","reachability":"reachable","status":"normal","personality":"vmanage","device-type":"vmanage","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585753003633,"domain-id":"0","board-serial":"07","certificate-validity":"Valid","max-controllers":"0","uuid":"4854266f-a8ad-4068-9651-d4e834384f51","controlConnections":"3","device-model":"vmanage","version":"18.3.1.1","connectedVManages":["\"4.4.4.90\""],"site-id":"100","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1585693440000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.90","total_cpu_count":"4","layoutLevel":1}]}
+        },
+
+        "/dataservice/device?deviceId=4.4.4.70":{
+            "code":200,
+            "data":{"data":[{"deviceId":"4.4.4.70","system-ip":"4.4.4.70","host-name":"vsmart","reachability":"reachable","status":"normal","personality":"vsmart","device-type":"vsmart","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585752996649,"domain-id":"1","board-serial":"09","certificate-validity":"Valid","uuid":"da6c566f-eb5f-4731-a89a-ff745661027c","controlConnections":"3","device-model":"vsmart","version":"18.3.0","connectedVManages":["\"4.4.4.90\""],"site-id":"100","ompPeers":"2 (4)","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1572018900000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.70","total_cpu_count":"2","layoutLevel":2}]}
+        },
+
+        "/dataservice/device?deviceId=4.4.4.80":{
+            "code":200,
+            "data":{"data":[{"deviceId":"4.4.4.80","system-ip":"4.4.4.80","host-name":"vbond","reachability":"reachable","status":"normal","personality":"vbond","device-type":"vbond","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585693613824,"board-serial":"08","certificate-validity":"Valid","uuid":"455407de-9327-467e-a0d2-d3444659dbb2","controlConnections":"--","device-model":"vedge-cloud","version":"18.3.1","connectedVManages":["\"4.4.4.90\""],"site-id":"100","ompPeers":"--","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1575765480000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.80","total_cpu_count":"4","linux_cpu_count":"1","layoutLevel":3}]}
+        },
+
+        "/dataservice/device?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"deviceId":"4.4.4.60","system-ip":"4.4.4.60","host-name":"vedge01","reachability":"reachable","status":"normal","personality":"vedge","device-type":"vedge","timezone":"UTC","device-groups":["\"No groups\""],"lastupdated":1585752997902,"bfdSessionsUp":2,"domain-id":"1","board-serial":"52DC4E09","certificate-validity":"Valid","max-controllers":"0","uuid":"4af9e049-0052-47e9-83af-81a5825f7ffe","bfdSessions":"2 (3)","controlConnections":"2","device-model":"vedge-cloud","version":"18.3.1","connectedVManages":["\"4.4.4.90\""],"site-id":"200","ompPeers":"1","latitude":"37.666684","longitude":"-122.777023","isDeviceGeoData":false,"platform":"x86_64","uptime-date":1577717160000,"statusOrder":4,"device-os":"next","validity":"valid","state":"green","state_description":"All daemons up","model_sku":"None","local-system-ip":"4.4.4.60","total_cpu_count":"8","linux_cpu_count":"1","layoutLevel":4}]}
+        },
+
+        "/dataservice/device/interface?deviceId=4.4.4.90":{
+            "code":200,
+            "data": {
+                "data": [{
+                        "vdevice-name": "4.4.4.90",
+                        "rx-errors": 0,
+                        "tx-kbps": 21,
+                        "if-admin-status": "Up",
+                        "duplex": "full",
+                        "tx-errors": 0,
+                        "tx-pps": 12,
+                        "ifname": "eth0",
+                        "rx-pps": 14,
+                        "af-type": "ipv4",
+                        "if-oper-status": "Up",
+                        "auto-neg": "true",
+                        "ifindex": 1,
+                        "rx-packets": 15059,
+                        "secondary-address": "",
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "mtu": "1500",
+                        "rx-drops": 19,
+                        "tx-drops": 0,
+                        "uptime": "0:00:17:30",
+                        "ipv6-address": "-",
+                        "secondary": "false",
+                        "ip-address": "10.10.20.90/24",
+                        "hwaddr": "00:50:56:bb:61:31",
+                        "speed-mbps": "1000",
+                        "vdevice-dataKey": "4.4.4.90-0-eth0-ipv4",
+                        "tx-octets": 4672020,
+                        "tx-packets": 13874,
+                        "rx-octets": 3965100,
+                        "rx-kbps": 18,
+                        "lastupdated": 1587457668716,
+                        "port-type": "transport",
+                        "uptime-date": 1587456600000,
+                        "encap-type": "null"
+                    }, {
+                        "vdevice-name": "4.4.4.90",
+                        "rx-errors": 0,
+                        "tx-kbps": 0,
+                        "if-admin-status": "Up",
+                        "duplex": "full",
+                        "tx-errors": 0,
+                        "tx-pps": 0,
+                        "ifname": "eth0",
+                        "rx-pps": 0,
+                        "af-type": "ipv6",
+                        "if-oper-status": "Up",
+                        "auto-neg": "true",
+                        "ifindex": 1,
+                        "rx-packets": 15059,
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "mtu": "1500",
+                        "rx-drops": 19,
+                        "tx-drops": 0,
+                        "uptime": "0:00:17:30",
+                        "ipv6-address": "-",
+                        "hwaddr": "00:50:56:bb:61:31",
+                        "speed-mbps": "1000",
+                        "ip-address": "-",
+                        "vdevice-dataKey": "4.4.4.90-0-eth0-ipv6",
+                        "tx-octets": 4672020,
+                        "tx-packets": 13874,
+                        "rx-octets": 3965100,
+                        "rx-kbps": 0,
+                        "lastupdated": 1587457668716,
+                        "port-type": "transport",
+                        "uptime-date": 1587456600000,
+                        "encap-type": "null"
+                    }, {
+                        "ifindex": 2,
+                        "vdevice-name": "4.4.4.90",
+                        "if-admin-status": "Down",
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "ipv6-address": "-",
+                        "hwaddr": "00:50:56:bb:ef:d5",
+                        "ip-address": "-",
+                        "vdevice-dataKey": "4.4.4.90-0-eth1-ipv4",
+                        "ifname": "eth1",
+                        "af-type": "ipv4",
+                        "lastupdated": 1587457668716,
+                        "if-oper-status": "Down"
+                    }, {
+                        "ifindex": 2,
+                        "vdevice-name": "4.4.4.90",
+                        "if-admin-status": "Down",
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "ipv6-address": "-",
+                        "hwaddr": "00:50:56:bb:ef:d5",
+                        "ip-address": "-",
+                        "vdevice-dataKey": "4.4.4.90-0-eth1-ipv6",
+                        "ifname": "eth1",
+                        "af-type": "ipv6",
+                        "lastupdated": 1587457668716,
+                        "if-oper-status": "Down"
+                    }, {
+                        "vdevice-name": "4.4.4.90",
+                        "rx-errors": 0,
+                        "tx-kbps": 0,
+                        "if-admin-status": "Up",
+                        "tx-errors": 0,
+                        "tx-pps": 0,
+                        "ifname": "system",
+                        "rx-pps": 0,
+                        "af-type": "ipv4",
+                        "if-oper-status": "Up",
+                        "ifindex": 3,
+                        "rx-packets": 0,
+                        "secondary-address": "",
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "rx-drops": 0,
+                        "tx-drops": 0,
+                        "uptime": "0:00:18:20",
+                        "ipv6-address": "-",
+                        "secondary": "false",
+                        "ip-address": "4.4.4.90/32",
+                        "vdevice-dataKey": "4.4.4.90-0-system-ipv4",
+                        "tx-octets": 0,
+                        "tx-packets": 0,
+                        "rx-octets": 0,
+                        "rx-kbps": 0,
+                        "lastupdated": 1587457668716,
+                        "port-type": "loopback",
+                        "uptime-date": 1587456540000,
+                        "encap-type": "null"
+                    }, {
+                        "vdevice-name": "4.4.4.90",
+                        "rx-errors": 0,
+                        "tx-kbps": 0,
+                        "if-admin-status": "Up",
+                        "tx-errors": 0,
+                        "tx-pps": 0,
+                        "ifname": "system",
+                        "rx-pps": 0,
+                        "af-type": "ipv6",
+                        "if-oper-status": "Up",
+                        "ifindex": 3,
+                        "rx-packets": 0,
+                        "vpn-id": "0",
+                        "vdevice-host-name": "vmanage-01",
+                        "rx-drops": 0,
+                        "tx-drops": 0,
+                        "uptime": "0:00:18:20",
+                        "ipv6-address": "-",
+                        "ip-address": "-",
+                        "vdevice-dataKey": "4.4.4.90-0-system-ipv6",
+                        "tx-octets": 0,
+                        "tx-packets": 0,
+                        "rx-octets": 0,
+                        "rx-kbps": 0,
+                        "lastupdated": 1587457668716,
+                        "port-type": "loopback",
+                        "uptime-date": 1587456540000,
+                        "encap-type": "null"
+                    }, {
+                        "duplex": "full",
+                        "if-admin-status": "Up",
+                        "ip-address": "210.100.100.2/32",
+                        "af-type": "ipv4",
+                        "speed-mbps": "10",
+                        "rx-errors": 0,
+                        "bandwidth-upstream": "0",
+                        "if-oper-status": "Up",
+                        "tx-kbps": 0,
+                        "num-flaps": "0",
+                        "secondary": "false",
+                        "hwaddr": "00:00:00:00:00:00",
+                        "vdevice-dataKey": "4.4.4.90-0-loopback0-ipv4",
+                        "bandwidth-downstream": "0",
+                        "uptime": "2:03:34:46",
+                        "ipv6-address": "-",
+                        "rx-kbps": 0,
+                        "tcp-mss-adjust": "1416",
+                        "tx-errors": 0,
+                        "tx-pps": 0,
+                        "tx-packets": 0,
+                        "mtu": "1500",
+                        "tx-octets": 0,
+                        "secondary-address": "",
+                        "ifindex": 4,
+                        "auto-neg": "false",
+                        "if-tracker-status": "NA",
+                        "rx-drops": 0,
+                        "shaping-rate": 0,
+                        "rx-octets": 0,
+                        "vpn-id": "430",
+                        "rx-packets": 0,
+                        "desc": "None",
+                        "lastupdated": "1709897292921",
+                        "rx-pps": 0,
+                        "port-type": "service",
+                        "uptime-date": "1709711580000",
+                        "ifname": "loopback0",
+                        "ipv6-admin-status": "Up",
+                        "vdevice-name": "4.4.4.90",
+                        "tx-drops": 0,
+                        "vdevice-host-name": "vmanage-01",
+                        "encap-type": "null"
+                    }, {
+                        "vdevice-dataKey": "4.4.4.90-0-loopback0-ipv6",
+                        "hwaddr": "00:00:00:00:00:00",
+                        "rx-packets": 0,
+                        "rx-octets": 0,
+                        "vpn-id": "430",
+                        "lastupdated": "1709897292921",
+                        "ipv6-address": "fd57:e5b5:d413:f3d6::1:1/128",
+                        "port-type": "service",
+                        "rx-pps": 0,
+                        "bandwidth-downstream": "0",
+                        "desc": "None",
+                        "uptime": "2:03:34:46",
+                        "tx-drops": 0,
+                        "vdevice-name": "4.4.4.90",
+                        "uptime-date": "1709711580000",
+                        "rx-kbps": 0,
+                        "ifname": "loopback0",
+                        "ipv6-admin-status": "Up",
+                        "tcp-mss-adjust": "1416",
+                        "tx-errors": 0,
+                        "encap-type": "null",
+                        "vdevice-host-name": "vmanage-01",
+                        "ip-address": "-",
+                        "duplex": "full",
+                        "if-admin-status": "Up",
+                        "tx-pps": 0,
+                        "tx-octets": 0,
+                        "mtu": "1500",
+                        "speed-mbps": "10",
+                        "af-type": "ipv6",
+                        "tx-packets": 0,
+                        "bandwidth-upstream": "0",
+                        "rx-errors": 0,
+                        "tx-kbps": 0,
+                        "shaping-rate": 0,
+                        "num-flaps": "0",
+                        "rx-drops": 0,
+                        "auto-neg": "false",
+                        "if-tracker-status": "NA",
+                        "ifindex": 4,
+                        "if-oper-status": "Up"
+                    }
+                ]
+            }
+        },
+
+        "/dataservice/device/interface?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":12,"if-admin-status":"Up","duplex":"full","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":9,"ifname":"ge0/0","rx-pps":11,"af-type":"ipv4","shaping-rate":0,"if-oper-status":"Up","auto-neg":"true","pause-type":"tx_pause rx_pause","ifindex":1,"allow-service":"dhcp dns icmp all https","if-tracker-status":"NA","num-flaps":"0","rx-packets":13598,"secondary-address":"","vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":751,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","secondary":"false","ip-address":"10.10.20.60/24","hwaddr":"00:50:56:bb:f7:c7","speed-mbps":"1000","vdevice-dataKey":"4.4.4.60-0-ge0/0-ipv4","tx-octets":2381284,"tx-packets":11649,"rx-octets":2201019,"rx-kbps":13,"lastupdated":1587457720986,"port-type":"transport","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Up","duplex":"full","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"ge0/0","rx-pps":0,"af-type":"ipv6","shaping-rate":0,"if-oper-status":"Up","auto-neg":"true","pause-type":"tx_pause rx_pause","ifindex":1,"allow-service":"dhcp dns icmp all https","if-tracker-status":"NA","num-flaps":"0","rx-packets":109,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","hwaddr":"00:50:56:bb:f7:c7","speed-mbps":"1000","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-ge0/0-ipv6","tx-octets":2230,"tx-packets":22,"rx-octets":11538,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"transport","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Down","duplex":"half","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"ge0/1","rx-pps":0,"af-type":"ipv4","shaping-rate":0,"if-oper-status":"Down","auto-neg":"true","ifindex":3,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","hwaddr":"00:50:56:bb:96:04","speed-mbps":"1000","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-ge0/1-ipv4","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"service","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Down","duplex":"half","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"ge0/1","rx-pps":0,"af-type":"ipv6","shaping-rate":0,"if-oper-status":"Down","auto-neg":"true","ifindex":3,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":1,"uptime":"0:00:18:37","ipv6-address":"2001::1/64","hwaddr":"00:50:56:bb:96:04","speed-mbps":"1000","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-ge0/1-ipv6","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"service","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Down","duplex":"half","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"ge0/2","rx-pps":0,"af-type":"ipv4","shaping-rate":0,"if-oper-status":"Down","auto-neg":"true","ifindex":4,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","hwaddr":"00:50:56:bb:4f:82","speed-mbps":"1000","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-ge0/2-ipv4","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"service","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Down","duplex":"half","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"ge0/2","rx-pps":0,"af-type":"ipv6","shaping-rate":0,"if-oper-status":"Down","auto-neg":"true","ifindex":4,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":1,"uptime":"0:00:18:37","ipv6-address":"-","hwaddr":"00:50:56:bb:4f:82","speed-mbps":"1000","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-ge0/2-ipv6","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"service","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Up","duplex":"full","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"system","rx-pps":0,"af-type":"ipv4","shaping-rate":0,"if-oper-status":"Up","auto-neg":"false","ifindex":5,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"secondary-address":"","vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","secondary":"false","ip-address":"4.4.4.60/32","hwaddr":"00:00:00:00:00:00","speed-mbps":"0","vdevice-dataKey":"4.4.4.60-0-system-ipv4","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"loopback","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Up","duplex":"full","tcp-mss-adjust":"1416","tx-errors":0,"tx-pps":0,"ifname":"system","rx-pps":0,"af-type":"ipv6","shaping-rate":0,"if-oper-status":"Up","auto-neg":"false","ifindex":5,"if-tracker-status":"NA","num-flaps":"0","rx-packets":0,"vpn-id":"0","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":0,"tx-drops":0,"uptime":"0:00:18:37","ipv6-address":"-","hwaddr":"00:00:00:00:00:00","speed-mbps":"0","ip-address":"-","vdevice-dataKey":"4.4.4.60-0-system-ipv6","tx-octets":0,"tx-packets":0,"rx-octets":0,"rx-kbps":0,"lastupdated":1587457720986,"port-type":"loopback","uptime-date":1587456600000,"encap-type":"null"},{"vdevice-name":"4.4.4.60","rx-errors":0,"tx-kbps":0,"if-admin-status":"Up","duplex":"full","tcp-mss-adjust":"0","tx-errors":0,"tx-pps":0,"ifname":"eth0","rx-pps":11,"af-type":"ipv4","shaping-rate":0,"if-oper-status":"Up","auto-neg":"false","ifindex":2,"if-tracker-status":"NA","num-flaps":"0","rx-packets":11107,"vpn-id":"512","vdevice-host-name":"vedge-001","mtu":"1500","rx-drops":34,"tx-drops":0,"uptime":"0:00:18:36","ipv6-address":"-","hwaddr":"00:50:56:bb:5a:6a","speed-mbps":"0","ip-address":"-","vdevice-dataKey":"4.4.4.60-512-eth0-ipv4","tx-octets":55188,"tx-packets":166,"rx-octets":3346167,"rx-kbps":27,"lastupdated":1587457720986,"port-type":"service","uptime-date":1587456600000,"encap-type":"null"}]}
+        },
+
+        "/dataservice/device/ip/routetable?deviceId=4.4.4.90":{
+            "code":200,
+            "data":{"data":[{"rstatus":"F S","protocol":"static","vdevice-dataKey":"4.4.4.90-0-0.0.0.0/0","vdevice-name":"4.4.4.90","prefix":"0.0.0.0/0","lastupdated":1587461026023,"nexthop-addr":"10.10.20.254","vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vmanage-01","address-family":"ipv4","nexthop-ifname":"eth0"},{"rstatus":"F S","protocol":"connected","vdevice-dataKey":"4.4.4.90-0-4.4.4.90/32","vdevice-name":"4.4.4.90","prefix":"4.4.4.90/32","lastupdated":1587461026023,"vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vmanage-01","address-family":"ipv4","nexthop-ifname":"system"},{"rstatus":"F S","protocol":"connected","vdevice-dataKey":"4.4.4.90-0-10.10.20.0/24","vdevice-name":"4.4.4.90","prefix":"10.10.20.0/24","lastupdated":1587461026023,"vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vmanage-01","address-family":"ipv4","nexthop-ifname":"eth0"}]}
+        },
+
+        "/dataservice/device/ip/routetable?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"rstatus":"F S","protocol":"static","vdevice-dataKey":"4.4.4.60-0-0.0.0.0/0","vdevice-name":"4.4.4.60","prefix":"0.0.0.0/0","lastupdated":1587460970643,"nexthop-addr":"10.10.20.254","vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vedge-001","address-family":"ipv4","nexthop-ifname":"ge0/0"},{"rstatus":"F S","protocol":"connected","vdevice-dataKey":"4.4.4.60-0-4.4.4.60/32","vdevice-name":"4.4.4.60","prefix":"4.4.4.60/32","lastupdated":1587460970643,"vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vedge-001","address-family":"ipv4","nexthop-ifname":"system"},{"rstatus":"F S","protocol":"connected","vdevice-dataKey":"4.4.4.60-0-10.10.20.0/24","vdevice-name":"4.4.4.60","prefix":"10.10.20.0/24","lastupdated":1587460970643,"vpn-id":0,"nexthop-type":"ipv4","vdevice-host-name":"vedge-001","address-family":"ipv4","nexthop-ifname":"ge0/0"},{"rstatus":"F S","protocol":"connected","vdevice-dataKey":"4.4.4.60-512-fcff::/120","vdevice-name":"4.4.4.60","prefix":"fcff::/120","lastupdated":1587460970643,"vpn-id":512,"nexthop-type":"ipv6","vdevice-host-name":"vedge-001","address-family":"ipv6","nexthop-ifname":"loop0.2"}]}
+        },
+
+        "/dataservice/device/arp?deviceId=4.4.4.90":{
+            "code":200,
+            "data":{"data":[{"if-name":"eth0","idle-timer":"0:00:11:31","vdevice-dataKey":"4.4.4.90-0-eth0","vdevice-name":"4.4.4.90","ip":"10.10.20.60","lastupdated":1588259311946,"state":"dynamic","vpn-id":"0","uptime-date":1588258800000,"vdevice-host-name":"vmanage","mac":"00:50:56:bb:94:d1","uptime":"0:00:08:28"},{"if-name":"eth0","idle-timer":"0:00:18:52","vdevice-dataKey":"4.4.4.90-0-eth0","vdevice-name":"4.4.4.90","ip":"10.10.20.62","lastupdated":1588259311946,"state":"dynamic","vpn-id":"0","uptime-date":1588247160000,"vdevice-host-name":"vmanage","mac":"00:50:56:bb:fa:0e","uptime":"0:03:21:43"},{"if-name":"eth0","idle-timer":"0:00:00:16","vdevice-dataKey":"4.4.4.90-0-eth0","vdevice-name":"4.4.4.90","ip":"10.10.20.70","lastupdated":1588259311946,"state":"dynamic","vpn-id":"0","uptime-date":1588258080000,"vdevice-host-name":"vmanage","mac":"00:50:56:bb:20:12","uptime":"0:00:19:44"}]}
+        },
+
+        "/dataservice/device/arp?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"if-name":"ge0/0","vdevice-dataKey":"4.4.4.60-0-ge0/0","vdevice-name":"4.4.4.60","ip":"10.10.20.60","lastupdated":1588259500228,"state":"static","vpn-id":"0","uptime-date":1585973520000,"vdevice-host-name":"vedge01","mac":"00:50:56:bb:94:d1","uptime":"26:10:59:16"},{"if-name":"ge0/0","idle-timer":"0:00:19:54","vdevice-dataKey":"4.4.4.60-0-ge0/0","vdevice-name":"4.4.4.60","ip":"10.10.20.62","lastupdated":1588259500228,"state":"dynamic","vpn-id":"0","uptime-date":1585973520000,"vdevice-host-name":"vedge01","mac":"00:50:56:bb:fa:0e","uptime":"26:10:59:15"},{"if-name":"ge0/0","idle-timer":"0:00:00:54","vdevice-dataKey":"4.4.4.60-0-ge0/0","vdevice-name":"4.4.4.60","ip":"10.10.20.64","lastupdated":1588259500228,"state":"dynamic","vpn-id":"0","uptime-date":1585973520000,"vdevice-host-name":"vedge01","mac":"00:50:56:bb:ed:38","uptime":"26:10:59:06"},{"if-name":"ge0/0","idle-timer":"0:00:19:57","vdevice-dataKey":"4.4.4.60-0-ge0/0","vdevice-name":"4.4.4.60","ip":"10.10.20.70","lastupdated":1588259500228,"state":"dynamic","vpn-id":"0","uptime-date":1585973520000,"vdevice-host-name":"vedge01","mac":"04:62:73:7a:b6:c0","uptime":"26:10:59:09"}]}
+        },
+
+        "/dataservice/device/system/status?deviceId=4.4.4.90":{
+            "code":200,
+            "data":{"data":[{"mem_used":"41477040","procs":"1206","disk_avail":"13635M","disk_mount":"/","board_type":"None","vdevice-name":"4.4.4.90","total_cpu_count":"4","mem_cached":"2579352","reboot_type":"Unknown","disk_fs":"/dev/root","min1_avg":"1.83","vmanage-storage-disk-used":"1026M","state_description":"All daemons up","personality":"vmanage","disk_used":"760M","disk_use":"5","vmanage-storage-disk-size":"100793M","disk_status":"enabled","state":"green","config_date/date-time-string":"Tue May 05 12:39:04 UTC 2020","vmanage-storage-disk-avail":"94646M","reboot_reason":"Unknown","cpu_user":"22.04","vmanage-storage-disk-mount":"/opt/data","vmanage-storage-disk-fs":"/dev/hdb","min15_avg":"2.04","disk_size":"15230M","cpu_idle":"73.34","mem_buffers":"940312","model_sku":"None","cpu_system":"3.95","version":"18.3.1.1","min5_avg":"2.00","vdevice-host-name":"vmanage","mem_total":"65743640","uptime":"0 days 13 hrs 00 min 35 sec","vmanage-storage-disk-use":"1","vdevice-dataKey":"4.4.4.90","mem_free":"20746936","bootloader_version":"Not applicable","fips_mode":"disabled","build_number":"39\n","lastupdated":1588682344792,"loghost_status":"disabled","uptime-date":1588635480000}]}
+        },
+
+        "/dataservice/device/system/status?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"mem_used":"1156024","procs":"226","disk_avail":"6218M","disk_mount":"/","board_type":"Sim","vdevice-name":"4.4.4.60","total_cpu_count":"8","mem_cached":"980488","reboot_type":"Not Applicable","disk_fs":"/dev/root","fp_cpu_count":"7","min1_avg":"7.07","state_description":"All daemons up","personality":"vedge","disk_used":"971M","disk_use":"14","disk_status":"enabled","state":"green","config_date/date-time-string":"Tue May 05 12:40:43 UTC 2020","linux_cpu_count":"1","core_files_status":"Core files found","reboot_reason":"Unknown","cpu_user":"2.87","min15_avg":"7.10","disk_size":"7615M","cpu_idle":"92.61","mem_buffers":"101876","model_sku":"None","cpu_system":"4.48","version":"18.3.1","min5_avg":"7.07","tcpd_cpu_count":"0","vdevice-host-name":"vedge01","mem_total":"3904620","uptime":"31 days 08 hrs 28 min 55 sec","vdevice-dataKey":"4.4.4.60","mem_free":"1666232","bootloader_version":"Not applicable","fips_mode":"enabled","build_number":"25\n","lastupdated":1588682443561,"loghost_status":"disabled","uptime-date":1585973460000}]}
+        },
+
+        "/dataservice/device/hardware/inventory?deviceId=4.4.4.90":{
+            "code":200,
+            "data":{"data":[]}
+        },
+        "/dataservice/device/hardware/inventory?deviceId=4.4.4.70":{
+            "code":200,
+            "data":{"data":[]}
+        },
+        "/dataservice/device/hardware/inventory?deviceId=4.4.4.80":{
+            "code":200,
+            "data":{"data":[]}
+        },
+        "/dataservice/device/hardware/inventory?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"hw-type":"Chassis","vdevice-dataKey":"4.4.4.60-Chassis-0","vdevice-name":"4.4.4.60","hw-dev-index":0,"serial-number":"sim","part-number":"vEdge-Cloud","lastupdated":1589362301298,"version":"1.0","vdevice-host-name":"vedge01","hw-description":"vEdge-Cloud"},{"hw-type":"PIM","vdevice-dataKey":"4.4.4.60-PIM-0","vdevice-name":"4.4.4.60","hw-dev-index":0,"serial-number":"None","part-number":"ge-8","lastupdated":1589362301298,"version":"None","vdevice-host-name":"vedge01","hw-description":"Max 8 x 1GE VM ports"}]}   
+        },
+
+        "/dataservice/device/hardware/environment?deviceId=4.4.4.60":{
+            "code":200,
+            "data":{"data":[{"vdevice-dataKey":"4.4.4.60-Interface module-0","vdevice-name":"4.4.4.60","hw-class":"Temperature Sensors","hw-item":"Board","hw-dev-index":0,"lastupdated":1589449223293,"vdevice-host-name":"vedge01","measurement":"37 degrees C/98 degrees F","status":"OK"},{"vdevice-dataKey":"4.4.4.60-Interface module-0","vdevice-name":"4.4.4.60","hw-class":"Fans","hw-item":"Tray 0 fan","hw-dev-index":1,"lastupdated":1589449223293,"vdevice-host-name":"vedge01","measurement":"Spinning at 4740 RPM","status":"OK"},{"vdevice-dataKey":"4.4.4.60-Interface module-0","vdevice-name":"4.4.4.60","hw-class":"PEM","hw-item":"Power supply","hw-dev-index":1,"lastupdated":1589449223293,"vdevice-host-name":"vedge01","measurement":"Powered On: no; Fault: no","status":"Down"}]}
+        }
+    }
+}

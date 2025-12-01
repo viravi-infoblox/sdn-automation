@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SDN Discovery Agent - High-Level Design Document</title>
+    <meta charset="UTF-8">
+</head>
+<body style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+
+<h1 style="color: #2c3e50; border-bottom: 3px solid #3498db;">SDN Discovery Agent - High-Level Design Document</h1>
+
+<h2 style="color: #34495e;">Executive Summary</h2>
+<p>This document outlines the design for an intelligent agent that automates the creation of SDN vendor implementations from OpenAPI specifications. The agent will analyze existing patterns from 6 implemented SDN vendors and generate complete, production-ready code following established NetMRI SDN architecture patterns.</p>
+
+<h2 style="color: #34495e;">Current SDN Implementation Analysis</h2>
+
+<h3>Implemented SDN Vendors</h3>
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <tr style="background-color: #3498db; color: white;">
+        <th>Vendor</th>
+        <th>Technology</th>
+        <th>Authentication</th>
+        <th>Key Features</th>
+    </tr>
+    <tr>
+        <td><strong>Cisco ACI</strong></td>
+        <td>Data Center Fabric</td>
+        <td>Cookie-based session</td>
+        <td>Multi-controller failover, Complex hierarchy</td>
+    </tr>
+    <tr style="background-color: #f8f9fa;">
+        <td><strong>Cisco Meraki</strong></td>
+        <td>Cloud-managed networking</td>
+        <td>API Key</td>
+        <td>Organization→Network→Device model</td>
+    </tr>
+    <tr>
+        <td><strong>Cisco Viptela</strong></td>
+        <td>SD-WAN</td>
+        <td>Cookie-based session</td>
+        <td>Session management, Device-centric</td>
+    </tr>
+    <tr style="background-color: #f8f9fa;">
+        <td><strong>Juniper Mist</strong></td>
+        <td>Cloud-managed Wi-Fi/LAN</td>
+        <td>Bearer Token</td>
+        <td>Org→Site→Device, Edge support</td>
+    </tr>
+    <tr>
+        <td><strong>SilverPeak</strong></td>
+        <td>SD-WAN</td>
+        <td>API Token</td>
+        <td>Appliance-centric, CLI execution</td>
+    </tr>
+</table>
+
+<h3>Architecture Patterns Identified</h3>
+
+<h4>1. Three-Layer Architecture</h4>
+<pre style="background-color: #f4f4f4; padding: 15px; border: 1px solid #ddd;">
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   SDN_Client    │    │   SDN_Server    │    │  SDN_Plugins    │
+│   (API Layer)   │───▶│ (Logic Layer)   │───▶│ (Data Layer)    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+     Perl modules         Business logic       Database schema
+     HTTP wrappers        Data transformation   Persistence
+     Authentication       Error handling       Validation
+</pre>
+
+<h4>2. Data Collection Categories</h4>
+<ul>
+    <li><strong>Device Discovery:</strong> Find all manageable devices</li>
+    <li><strong>System Information:</strong> Basic device details (Model, Serial, Version)</li>
+    <li><strong>Interface/Port Data:</strong> Physical and logical interfaces</li>
+    <li><strong>Network Topology:</strong> LLDP/CDP neighbor discovery</li>
+    <li><strong>Routing Information:</strong> Static/dynamic routes</li>
+    <li><strong>Wireless Configuration:</strong> SSIDs, radio status</li>
+    <li><strong>Status/Monitoring:</strong> Operational state, performance metrics</li>
+</ul>
+
+<h4>3. Common Data Model</h4>
+<pre style="background-color: #f4f4f4; padding: 15px; border: 1px solid #ddd;">
+# Standard device representation
+{
+    SdnControllerId => $fabric_id,
+    SdnDeviceDN => $unique_device_identifier,
+    Name => $device_name,
+    NodeRole => $device_role,
+    Vendor => $vendor_name,
+    Model => $device_model,
+    Serial => $serial_number,
+    SWVersion => $software_version,
+    IPAddress => $management_ip,
+    modTS => $modification_timestamp
+}
+</pre>
+
+<h2 style="color: #34495e;">Agent Architecture Design</h2>
+
+<h3>Core Components</h3>
+<div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+<strong>OpenAPI Parser Engine</strong>
+<ul>
+    <li>Parse OpenAPI 3.x schemas</li>
+    <li>Identify authentication schemes</li>
+    <li>Categorize endpoints by data type</li>
+    <li>Extract request/response schemas</li>
+    <li>Detect pagination patterns</li>
+</ul>
+</div>
+
+<h3>Intelligent API Selection</h3>
+<h4>Priority Scoring Factors:</h4>
+<ul>
+    <li>Endpoint specificity (device-specific vs. generic)</li>
+    <li>HTTP method preference (GET for data collection)</li>
+    <li>Response schema complexity</li>
+    <li>Vendor-specific best practices</li>
+</ul>
+
+<h2 style="color: #34495e;">Implementation Plan</h2>
+
+<h3>Phase 1: Foundation (Weeks 1-2)</h3>
+<div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+<strong>OpenAPI Parser Development</strong>
+<ul>
+    <li>Implement spec parsing logic</li>
+    <li>Create endpoint categorization engine</li>
+    <li>Build authentication method detection</li>
+</ul>
+</div>
+
+<h3>Phase 2: Core Engine (Weeks 3-4)</h3>
+<div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+<strong>Template System & Code Generation</strong>
+<ul>
+    <li>Create parameterized Perl templates</li>
+    <li>Implement variable substitution engine</li>
+    <li>Develop code generation algorithms</li>
+</ul>
+</div>
+
+<h3>Phase 3: Intelligence Layer (Weeks 5-6)</h3>
+<div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+<strong>Pattern Recognition & Validation</strong>
+<ul>
+    <li>ML-based endpoint classification</li>
+    <li>Automatic field mapping detection</li>
+    <li>Generated code validation</li>
+</ul>
+</div>
+
+<h3>Phase 4: Agent Interface (Weeks 7-8)</h3>
+<div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107;">
+<strong>User Interface & Configuration</strong>
+<ul>
+    <li>CLI interface for agent operation</li>
+    <li>Web interface for configuration</li>
+    <li>Progress monitoring and reporting</li>
+</ul>
+</div>
+
+<h2 style="color: #34495e;">Key Benefits</h2>
+
+<div style="background-color: #d4edda; padding: 15px; border-left: 4px solid #28a745;">
+<h3>1. Development Acceleration</h3>
+<ul>
+    <li><strong>Time Reduction:</strong> 90% faster vendor integration (weeks → hours)</li>
+    <li><strong>Consistency:</strong> Standardized code quality across all vendors</li>
+    <li><strong>Maintainability:</strong> Template-driven updates for all vendors</li>
+</ul>
+
+<h3>2. Quality Assurance</h3>
+<ul>
+    <li><strong>Pattern Compliance:</strong> Follows proven NetMRI SDN patterns</li>
+    <li><strong>Error Reduction:</strong> Eliminates manual coding errors</li>
+    <li><strong>Best Practices:</strong> Incorporates lessons learned</li>
+</ul>
+
+<h3>3. Scalability</h3>
+<ul>
+    <li><strong>Rapid Expansion:</strong> Support new vendors with minimal effort</li>
+    <li><strong>Version Management:</strong> Easy updates for API changes</li>
+    <li><strong>Knowledge Capture:</strong> Preserves institutional knowledge</li>
+</ul>
+</div>
+
+<h2 style="color: #34495e;">Success Metrics</h2>
+<ol>
+    <li><strong>Code Generation Quality:</strong> 95%+ generated code passes validation</li>
+    <li><strong>Development Speed:</strong> &lt;4 hours from OpenAPI spec to working implementation</li>
+    <li><strong>Pattern Compliance:</strong> 100% adherence to established SDN patterns</li>
+    <li><strong>Maintainability:</strong> Single template update affects all vendors</li>
+    <li><strong>Test Coverage:</strong> Auto-generated test cases achieve &gt;90% coverage</li>
+</ol>
+
+<h2 style="color: #34495e;">Risk Assessment & Mitigation</h2>
+
+<div style="background-color: #f8d7da; padding: 15px; border-left: 4px solid #dc3545;">
+<h3>Technical Risks</h3>
+<p><strong>OpenAPI Spec Variations:</strong> Different vendors may have non-standard specs<br>
+<em>Mitigation:</em> Flexible parsing with vendor-specific adaptations</p>
+
+<p><strong>Authentication Complexity:</strong> Complex auth flows may be difficult to automate<br>
+<em>Mitigation:</em> Manual override mechanisms for complex cases</p>
+
+<h3>Business Risks</h3>
+<p><strong>Vendor API Changes:</strong> Breaking changes in vendor APIs<br>
+<em>Mitigation:</em> Version-aware generation with backward compatibility</p>
+</div>
+
+<h2 style="color: #34495e;">Conclusion</h2>
+<p>The SDN Discovery Agent represents a significant advancement in NetMRI's SDN capabilities. By automating the creation of vendor implementations from OpenAPI specifications, we can dramatically accelerate the integration of new SDN vendors while maintaining the high quality and consistency of our existing implementations.</p>
+
+<p>The agent leverages proven patterns from our current 6 vendor implementations, ensuring that generated code follows established best practices and integrates seamlessly with the NetMRI platform.</p>
+
+<hr>
+<p><strong>Document Version:</strong> 1.0<br>
+<strong>Last Updated:</strong> November 4, 2025<br>
+<strong>Author:</strong> SDN Development Team</p>
+
+</body>
+</html>

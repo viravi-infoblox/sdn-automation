@@ -1,0 +1,341 @@
+{\rtf1\ansi\deff0 {\fonttbl {\f0 Times New Roman;} {\f1 Courier New;}}
+{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red255\green0\blue0;}
+\f0\fs24
+
+{\b\fs32 SDN Discovery Agent - High-Level Design Document}
+\par\par
+
+{\b\fs28 Executive Summary}
+\par\par
+This document outlines the design for an intelligent agent that automates the creation of SDN vendor implementations from OpenAPI specifications. The agent will analyze existing patterns from 6 implemented SDN vendors and generate complete, production-ready code following established NetMRI SDN architecture patterns.
+\par\par
+
+{\b\fs28 Current SDN Implementation Analysis}
+\par\par
+
+{\b\fs24 Implemented SDN Vendors}
+\par\par
+
+{\b Cisco ACI} - Data Center Fabric
+\par {\i Authentication:} Cookie-based session
+\par {\i Key Features:} Multi-controller failover, Complex hierarchy (Tenant→BD→EPG)
+\par\par
+
+{\b Cisco Meraki} - Cloud-managed networking
+\par {\i Authentication:} API Key (X-Cisco-Meraki-API-Key)
+\par {\i Key Features:} Organization→Network→Device model, Role-based collection
+\par\par
+
+{\b Cisco Viptela} - SD-WAN
+\par {\i Authentication:} Cookie-based session
+\par {\i Key Features:} Session management, Device-centric data model
+\par\par
+
+{\b Juniper Mist} - Cloud-managed Wi-Fi/LAN
+\par {\i Authentication:} Bearer Token
+\par {\i Key Features:} Org→Site→Device, Edge device support
+\par\par
+
+{\b SilverPeak} - SD-WAN
+\par {\i Authentication:} API Token (X-Auth-Token)
+\par {\i Key Features:} Appliance-centric, CLI command execution
+\par\par
+
+{\b\fs24 Architecture Patterns Identified}
+\par\par
+
+{\b 1. Three-Layer Architecture}
+\par\par
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+\par │   SDN_Client    │    │   SDN_Server    │    │  SDN_Plugins    │
+\par │   (API Layer)   │───▶│ (Logic Layer)   │───▶│ (Data Layer)    │
+\par └─────────────────┘    └─────────────────┘    └─────────────────┘
+\par      Perl modules         Business logic       Database schema
+\par      HTTP wrappers        Data transformation   Persistence
+\par      Authentication       Error handling       Validation
+\par\par
+
+{\b 2. Data Collection Categories}
+\par • {\b Device Discovery:} Find all manageable devices
+\par • {\b System Information:} Basic device details (Model, Serial, Version)
+\par • {\b Interface/Port Data:} Physical and logical interfaces
+\par • {\b Network Topology:} LLDP/CDP neighbor discovery
+\par • {\b Routing Information:} Static/dynamic routes
+\par • {\b Wireless Configuration:} SSIDs, radio status (for wireless vendors)
+\par • {\b Status/Monitoring:} Operational state, performance metrics
+\par\par
+
+{\b 3. Common Data Model}
+\par All vendors map to standardized NetMRI fields:
+\par\par
+\f1\fs20 # Standard device representation
+\par \{
+\par     SdnControllerId => $fabric_id,
+\par     SdnDeviceDN => $unique_device_identifier,
+\par     Name => $device_name,
+\par     NodeRole => $device_role,
+\par     Vendor => $vendor_name,
+\par     Model => $device_model,
+\par     Serial => $serial_number,
+\par     SWVersion => $software_version,
+\par     IPAddress => $management_ip,
+\par     modTS => $modification_timestamp
+\par \}
+\f0\fs24
+\par\par
+
+{\b 4. Authentication Patterns}
+\par • {\b API Key:} Simple header-based (Meraki, SilverPeak, Mist)
+\par • {\b Session-based:} Login→Cookie→Operations→Logout (ACI, Viptela)
+\par • {\b Token-based:} Bearer tokens with refresh capability
+\par\par
+
+{\b 5. Error Handling & Resilience}
+\par • Rate limiting (vendor-specific: 3-100 req/sec)
+\par • Retry mechanisms for HTTP 429 (Too Many Requests)
+\par • Controller failover (ACI multi-controller setup)
+\par • Graceful degradation for offline devices
+\par\par
+
+{\b\fs28 Agent Architecture Design}
+\par\par
+
+{\b\fs24 Core Components}
+\par\par
+
+The SDN Discovery Agent consists of several interconnected modules:
+\par\par
+
+{\b OpenAPI Parser Engine}
+\par • Parse OpenAPI 3.x schemas
+\par • Identify authentication schemes
+\par • Categorize endpoints by data type
+\par • Extract request/response schemas
+\par • Detect pagination patterns
+\par\par
+
+{\b Pattern Recognition Module}
+\par • Map OpenAPI endpoints to NetMRI data collection patterns
+\par • Classify endpoints using URL patterns and response indicators
+\par • Determine optimal API selection strategies
+\par\par
+
+{\b Code Generation Engine}
+\par • Generate production-ready Perl modules using templates
+\par • Create SDN_Client, SDN_Server, and SDN_Plugin modules
+\par • Implement intelligent API selection algorithms
+\par • Handle vendor-specific customizations
+\par\par
+
+{\b Template System}
+\par • Parameterized Perl templates
+\par • Variable substitution engine
+\par • Conditional logic for vendor differences
+\par • Consistent code structure across vendors
+\par\par
+
+{\b\fs24 Intelligent API Selection}
+\par\par
+
+The agent uses a sophisticated scoring algorithm to select optimal APIs:
+\par\par
+
+{\b Priority Scoring Factors:}
+\par • Endpoint specificity (device-specific vs. generic)
+\par • HTTP method preference (GET for data collection)
+\par • Response schema complexity
+\par • Vendor-specific best practices
+\par\par
+
+{\b Selection Strategy:}
+\par • Score all candidate endpoints
+\par • Select primary API with highest score
+\par • Identify fallback options for resilience
+\par • Generate error handling for failed calls
+\par\par
+
+{\b\fs24 Data Transformation Engine}
+\par\par
+
+Maps vendor-specific API responses to NetMRI data models:
+\par\par
+
+{\b Field Mapping Patterns:}
+\par • {\b Device Identification:} id, deviceId, serial, uuid, dn → SdnDeviceDN
+\par • {\b Management IP:} managementIp, ip, address, mgmtIp, lanIp → IPAddress
+\par • {\b Device Role:} device_type + vendor_prefix → NodeRole
+\par • {\b Timestamps:} Various formats → standardized NetMRI format
+\par\par
+
+{\b\fs28 Implementation Plan}
+\par\par
+
+{\b\fs24 Phase 1: Foundation (Weeks 1-2)}
+\par\par
+
+{\b OpenAPI Parser Development}
+\par • Implement spec parsing logic
+\par • Create endpoint categorization engine
+\par • Build authentication method detection
+\par\par
+
+{\b Pattern Analysis}
+\par • Deep analysis of existing 6 vendor implementations
+\par • Extract common patterns and templates
+\par • Document vendor-specific variations
+\par\par
+
+{\b\fs24 Phase 2: Core Engine (Weeks 3-4)}
+\par\par
+
+{\b Template System}
+\par • Create parameterized Perl templates
+\par • Implement variable substitution engine
+\par • Build conditional logic for vendor differences
+\par\par
+
+{\b Code Generation Engine}
+\par • Develop code generation algorithms
+\par • Implement API selection logic
+\par • Create data transformation rules
+\par\par
+
+{\b\fs24 Phase 3: Intelligence Layer (Weeks 5-6)}
+\par\par
+
+{\b Pattern Recognition}
+\par • ML-based endpoint classification
+\par • Automatic field mapping detection
+\par • Vendor behavior pattern learning
+\par\par
+
+{\b Validation Engine}
+\par • Generated code syntax validation
+\par • Logic flow verification
+\par • NetMRI integration testing
+\par\par
+
+{\b\fs24 Phase 4: Agent Interface (Weeks 7-8)}
+\par\par
+
+{\b User Interface}
+\par • CLI interface for agent operation
+\par • Web interface for configuration
+\par • Progress monitoring and reporting
+\par\par
+
+{\b Configuration Management}
+\par • Vendor-specific customizations
+\par • Override mechanisms
+\par • Template versioning
+\par\par
+
+{\b\fs28 Key Benefits}
+\par\par
+
+{\b\fs24 1. Development Acceleration}
+\par • {\b Time Reduction:} 90% faster vendor integration (weeks → hours)
+\par • {\b Consistency:} Standardized code quality across all vendors
+\par • {\b Maintainability:} Template-driven updates for all vendors
+\par\par
+
+{\b\fs24 2. Quality Assurance}
+\par • {\b Pattern Compliance:} Follows proven NetMRI SDN patterns
+\par • {\b Error Reduction:} Eliminates manual coding errors
+\par • {\b Best Practices:} Incorporates lessons learned from existing implementations
+\par\par
+
+{\b\fs24 3. Scalability}
+\par • {\b Rapid Expansion:} Support new vendors with minimal effort
+\par • {\b Version Management:} Easy updates for API changes
+\par • {\b Knowledge Capture:} Preserves institutional knowledge in templates
+\par\par
+
+{\b\fs24 4. Risk Mitigation}
+\par • {\b Tested Patterns:} Based on production-proven implementations
+\par • {\b Validation Framework:} Comprehensive testing before deployment
+\par • {\b Rollback Capability:} Safe deployment with fallback options
+\par\par
+
+{\b\fs28 Success Metrics}
+\par\par
+
+1. {\b Code Generation Quality:} 95%+ generated code passes validation
+\par 2. {\b Development Speed:} <4 hours from OpenAPI spec to working implementation
+\par 3. {\b Pattern Compliance:} 100% adherence to established SDN patterns
+\par 4. {\b Maintainability:} Single template update affects all vendors
+\par 5. {\b Test Coverage:} Auto-generated test cases achieve >90% coverage
+\par\par
+
+{\b\fs28 Technical Requirements}
+\par\par
+
+{\b\fs24 Hardware Requirements}
+\par • {\b Development Environment:} Modern workstation with 16GB+ RAM
+\par • {\b Testing Infrastructure:} Virtual lab environment for vendor simulators
+\par\par
+
+{\b\fs24 Software Dependencies}
+\par • {\b Perl 5.x:} Core runtime environment
+\par • {\b OpenAPI Tools:} Swagger/OpenAPI 3.x parsing libraries
+\par • {\b Template Engine:} Text::Template or similar
+\par • {\b Version Control:} Git with branching strategy
+\par • {\b CI/CD Pipeline:} Automated testing and deployment
+\par\par
+
+{\b\fs24 Integration Points}
+\par • {\b NetMRI Core:} Seamless integration with existing SDN framework
+\par • {\b Database Schema:} Compatible with current plugin architecture
+\par • {\b Authentication Systems:} Support for various auth mechanisms
+\par • {\b Monitoring Systems:} Integration with NetMRI monitoring
+\par\par
+
+{\b\fs28 Risk Assessment & Mitigation}
+\par\par
+
+{\b\fs24 Technical Risks}
+\par\par
+
+{\b 1. OpenAPI Spec Variations}
+\par {\i Risk:} Different vendors may have non-standard specs
+\par {\i Mitigation:} Flexible parsing with vendor-specific adaptations
+\par\par
+
+{\b 2. Authentication Complexity}
+\par {\i Risk:} Complex auth flows may be difficult to automate
+\par {\i Mitigation:} Manual override mechanisms for complex cases
+\par\par
+
+{\b 3. API Rate Limiting}
+\par {\i Risk:} Aggressive rate limiting may impact testing
+\par {\i Mitigation:} Configurable rate limiting with vendor-specific settings
+\par\par
+
+{\b\fs24 Business Risks}
+\par\par
+
+{\b 1. Vendor API Changes}
+\par {\i Risk:} Breaking changes in vendor APIs
+\par {\i Mitigation:} Version-aware generation with backward compatibility
+\par\par
+
+{\b 2. Maintenance Overhead}
+\par {\i Risk:} Agent itself requires ongoing maintenance
+\par {\i Mitigation:} Comprehensive documentation and knowledge transfer
+\par\par
+
+{\b\fs28 Conclusion}
+\par\par
+
+The SDN Discovery Agent represents a significant advancement in NetMRI's SDN capabilities. By automating the creation of vendor implementations from OpenAPI specifications, we can dramatically accelerate the integration of new SDN vendors while maintaining the high quality and consistency of our existing implementations.
+\par\par
+
+The agent leverages proven patterns from our current 6 vendor implementations, ensuring that generated code follows established best practices and integrates seamlessly with the NetMRI platform. This approach positions NetMRI to rapidly expand SDN vendor support in response to market demands while reducing development costs and risks.
+\par\par
+
+{\b\fs20 Document Version:} 1.0
+\par {\b Last Updated:} November 4, 2025
+\par {\b Author:} SDN Development Team
+\par\par
+
+}

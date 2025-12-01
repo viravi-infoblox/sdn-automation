@@ -1,0 +1,401 @@
+{
+  "total_endpoints": 9,
+  "mappings": [
+    {
+      "operation_id": "getOrganizations",
+      "path": "/organizations",
+      "method": "GET",
+      "plugin": "SaveSdnVlan",
+      "plugin_method": "saveSdnVlan",
+      "confidence": 0.64,
+      "coverage": 100.0,
+      "field_mappings": [
+        {
+          "api_field": "id",
+          "netmri_field": "VlanID",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "VlanName",
+          "required": true,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getOrganizationNetworks",
+      "path": "/organizations/{organizationId}/networks",
+      "method": "GET",
+      "plugin": "SaveSdnVlan",
+      "plugin_method": "saveSdnVlan",
+      "confidence": 0.64,
+      "coverage": 100.0,
+      "field_mappings": [
+        {
+          "api_field": "id",
+          "netmri_field": "VlanID",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "VlanName",
+          "required": true,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getOrganizationDevices",
+      "path": "/organizations/{organizationId}/devices",
+      "method": "GET",
+      "plugin": "SaveDevices",
+      "plugin_method": "saveDevices",
+      "confidence": 0.78,
+      "coverage": 83.3,
+      "field_mappings": [
+        {
+          "api_field": "serial",
+          "netmri_field": "SdnDeviceDN",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "serial",
+          "netmri_field": "Serial",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "model",
+          "netmri_field": "Model",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "Name",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "lanIp",
+          "netmri_field": "IPAddress",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "model",
+          "netmri_field": "NodeRole",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "firmware",
+          "netmri_field": "SWVersion",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "claimedAt",
+          "netmri_field": "modTS",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "mac",
+          "netmri_field": "MACAddress",
+          "required": false,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getOrganizationDevicesStatuses",
+      "path": "/organizations/{organizationId}/devices/statuses",
+      "method": "GET",
+      "plugin": "SaveDevices",
+      "plugin_method": "saveDevices",
+      "confidence": 0.463,
+      "coverage": 50.0,
+      "field_mappings": [
+        {
+          "api_field": "serial",
+          "netmri_field": "SdnDeviceDN",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "serial",
+          "netmri_field": "Serial",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "MISSING: model",
+          "netmri_field": "Model",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "MISSING: name",
+          "netmri_field": "Name",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "lanIp",
+          "netmri_field": "IPAddress",
+          "required": true,
+          "transform": null
+        }
+      ],
+      "notes": [
+        "\u26a0 Low field coverage: 50% (recommended: \u226580%)",
+        "Missing required fields: MISSING: model, MISSING: name"
+      ]
+    },
+    {
+      "operation_id": "getDevice",
+      "path": "/devices/{serial}",
+      "method": "GET",
+      "plugin": "SaveDevices",
+      "plugin_method": "saveDevices",
+      "confidence": 0.78,
+      "coverage": 83.3,
+      "field_mappings": [
+        {
+          "api_field": "serial",
+          "netmri_field": "SdnDeviceDN",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "serial",
+          "netmri_field": "Serial",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "model",
+          "netmri_field": "Model",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "Name",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "lanIp",
+          "netmri_field": "IPAddress",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "model",
+          "netmri_field": "NodeRole",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "firmware",
+          "netmri_field": "SWVersion",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "claimedAt",
+          "netmri_field": "modTS",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "mac",
+          "netmri_field": "MACAddress",
+          "required": false,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getDeviceSwitchPorts",
+      "path": "/devices/{serial}/switch/ports",
+      "method": "GET",
+      "plugin": "SaveSdnFabricInterface",
+      "plugin_method": "saveSdnFabricInterface",
+      "confidence": 0.768,
+      "coverage": 100.0,
+      "field_mappings": [
+        {
+          "api_field": "portId",
+          "netmri_field": "ifIndex",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "ifName",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "status",
+          "netmri_field": "ifOperStatus",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "enabled",
+          "netmri_field": "ifAdminStatus",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "speed",
+          "netmri_field": "ifSpeed",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "duplex",
+          "netmri_field": "ifDuplex",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "type",
+          "netmri_field": "ifType",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "vlan",
+          "netmri_field": "VlanIndex",
+          "required": false,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getDeviceLldpCdp",
+      "path": "/devices/{serial}/lldpCdp",
+      "method": "GET",
+      "plugin": "SaveSdnLldp",
+      "plugin_method": "saveSdnLldp",
+      "confidence": 0.15,
+      "coverage": 0.0,
+      "field_mappings": [
+        {
+          "api_field": "MISSING: portId",
+          "netmri_field": "ifIndex",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "MISSING: deviceId",
+          "netmri_field": "NeighborDeviceID",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "MISSING: portId",
+          "netmri_field": "NeighborPortID",
+          "required": true,
+          "transform": null
+        }
+      ],
+      "notes": [
+        "\u26a0 Low field coverage: 0% (recommended: \u226580%)",
+        "Missing required fields: MISSING: portId, MISSING: deviceId, MISSING: portId"
+      ]
+    },
+    {
+      "operation_id": "getNetworkApplianceStaticRoutes",
+      "path": "/networks/{networkId}/appliance/staticRoutes",
+      "method": "GET",
+      "plugin": "SaveSdnRoute",
+      "plugin_method": "saveSdnRoute",
+      "confidence": 0.69,
+      "coverage": 100.0,
+      "field_mappings": [
+        {
+          "api_field": "subnet",
+          "netmri_field": "RouteCIDR",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "gatewayIp",
+          "netmri_field": "RouteNextHop",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "name",
+          "netmri_field": "RouteName",
+          "required": false,
+          "transform": null
+        }
+      ],
+      "notes": []
+    },
+    {
+      "operation_id": "getNetworkWirelessSsids",
+      "path": "/networks/{networkId}/wireless/ssids",
+      "method": "GET",
+      "plugin": "SaveSdnWirelessSsid",
+      "plugin_method": "saveSdnWirelessSsid",
+      "confidence": 0.808,
+      "coverage": 100.0,
+      "field_mappings": [
+        {
+          "api_field": "name",
+          "netmri_field": "SSID",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "enabled",
+          "netmri_field": "SSIDEnabled",
+          "required": true,
+          "transform": null
+        },
+        {
+          "api_field": "number",
+          "netmri_field": "SSIDNumber",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "authMode",
+          "netmri_field": "AuthMode",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "encryptionMode",
+          "netmri_field": "EncryptionMode",
+          "required": false,
+          "transform": null
+        },
+        {
+          "api_field": "splashPage",
+          "netmri_field": "SplashPage",
+          "required": false,
+          "transform": null
+        }
+      ],
+      "notes": []
+    }
+  ]
+}
