@@ -1,0 +1,31 @@
+# Infoblox Configuration
+infoblox:
+  host: "infoblox.example.com"
+  username: "admin"
+  password: "changeme"
+  wapi_version: "v2.12"
+  verify_ssl: true
+
+# Network Configuration
+networks:
+  management:
+    cidr: "10.0.0.0/24"
+    comment: "Management Network"
+  
+  data:
+    cidr: "10.1.0.0/24"
+    comment: "Data Network"
+  
+  storage:
+    cidr: "10.2.0.0/24"
+    comment: "Storage Network"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  log_file: null
+
+# Automation Settings
+automation:
+  domain: "example.com"
+  default_network: "10.0.0.0/24"
