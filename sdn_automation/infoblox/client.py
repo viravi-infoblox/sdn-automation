@@ -134,7 +134,15 @@ class InfobloxClient:
             response.raise_for_status()
             
             data = response.json()
-            return data.get('ips', [])
+            # WAPI returns {'ips': [...]} for next_available_ip function
+            if isinstance(data, dict):
+                return data.get('ips', [])
+            # Fallback: if response is directly a list
+            elif isinstance(data, list):
+                return data
+            else:
+                logger.warning(f"Unexpected response format: {type(data)}")
+                return None
         except requests.exceptions.RequestException as e:
             logger.error(f"Error getting next available IP for {network}: {e}")
             return None
