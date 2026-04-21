@@ -1,0 +1,872 @@
+{
+   "collectionPlan": {
+      "stages": [
+         {
+            "description": "Discover organizations/tenants",
+            "id": "org_discovery",
+            "requiredData": [
+               "organization_id",
+               "organization_name"
+            ]
+         },
+         {
+            "description": "Discover sites per organization",
+            "id": "site_discovery",
+            "requiredData": [
+               "site_id",
+               "site_name",
+               "organization_id"
+            ]
+         },
+         {
+            "description": "Discover devices per site with core identity attributes",
+            "id": "device_inventory",
+            "requiredData": [
+               "model",
+               "ip_address",
+               "mac_address",
+               "device_type",
+               "sw_version",
+               "serial_number"
+            ]
+         },
+         {
+            "description": "Collect forwarding/route/interface/performance/environment",
+            "id": "device_state_and_tables",
+            "requiredData": [
+               "forwarding_table",
+               "route_table",
+               "interface_table",
+               "cpu_status",
+               "memory_status",
+               "fan_status"
+            ]
+         },
+         {
+            "description": "Collect neighbors and endpoint visibility",
+            "id": "topology_and_endpoints",
+            "requiredData": [
+               "lldp",
+               "cdp",
+               "ap_devices",
+               "wired_clients",
+               "wireless_clients",
+               "end_hosts"
+            ]
+         }
+      ],
+      "version": "1.0"
+   },
+   "generatedAt": "Mon Apr 20 08:44:59 2026 UTC",
+   "generation": {
+      "mode": "openapi_matched",
+      "source": "VeloCloud/Velo-openapi.yaml"
+   },
+   "manualReview": {
+      "notes": "Generated from OpenAPI source: VeloCloud/Velo-openapi.yaml",
+      "reviewedAt": "",
+      "reviewedBy": "",
+      "status": "pending"
+   },
+   "pluginCalls": [
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/'",
+            "dependsOn": null,
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "enterpriseId",
+               "enterpriseName",
+               "interfaceName",
+               "ipAddress",
+               "macAddress",
+               "mtu",
+               "speed",
+               "adminStatus"
+            ],
+            "fillInstructions": "1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-001",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_list_enterprises",
+         "parameters": {
+            "body": 0,
+            "path": [],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/",
+         "plugins": [
+            "SdnFabricInterface",
+            "SwitchPortObject",
+            "VeloCloudOrganizations",
+            "ifConfig"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/flowStats'",
+            "dependsOn": [
+               "CALL-001"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "destPrefix",
+               "nextHop",
+               "interface",
+               "protocol",
+               "ipAddress",
+               "subnetMask",
+               "interfaceName",
+               "model",
+               "serialNumber",
+               "description",
+               "hardwareRevision",
+               "name",
+               "softwareVersion",
+               "osVersion",
+               "uptime",
+               "inOctets",
+               "outOctets",
+               "inErrors",
+               "outErrors"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-002",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_flowStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats",
+         "plugins": [
+            "Forwarding",
+            "IPAddress",
+            "Inventory",
+            "Performance",
+            "SystemInfo",
+            "VrfARP",
+            "atObject",
+            "ifPerf"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/nonSdWanTunnelStatus'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002"
+            ],
+            "expectedResponseShape": "Paste one full JSON response object here",
+            "fieldsWeNeed": [
+               "name",
+               "ipAddress",
+               "macAddress",
+               "model",
+               "serialNumber",
+               "softwareVersion",
+               "status"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/nonSdWanTunnelStatus\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-003",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_non_sdwan_tunnel_status",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/nonSdWanTunnelStatus",
+         "plugins": [
+            "Devices",
+            "bsnAPTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/qos'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003"
+            ],
+            "expectedResponseShape": "Paste one full JSON response object here",
+            "fieldsWeNeed": [
+               "name",
+               "value (any device-level key-value pairs)"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/qos\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-004",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_qos",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/qos",
+         "plugins": [
+            "DeviceProperty"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/linkQualityStats'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "(see response schema keys above)"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-005",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_linkQualityStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats",
+         "plugins": [
+            "RoutingPerfObject"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/clientDevices'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004",
+               "CALL-005"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "macAddress",
+               "ipAddress",
+               "hostname",
+               "vlan"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004, CALL-005\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-006",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_list_enterprise_client_devices",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices",
+         "plugins": [
+            "SdnEndpoint",
+            "bsnMobileStationTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/healthStats'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004",
+               "CALL-005",
+               "CALL-006"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "cpuIndex",
+               "cpuBusyPct",
+               "memoryUsed",
+               "memoryFree",
+               "memoryTotal",
+               "fanStatus",
+               "powerSupplyStatus",
+               "temperatureValue"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004, CALL-005, CALL-006\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-007",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_healthStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats",
+         "plugins": [
+            "DeviceCpuStats",
+            "DeviceMemStats",
+            "Environmental"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/bgpSessions'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004",
+               "CALL-005",
+               "CALL-006",
+               "CALL-007"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "localPort",
+               "remoteDeviceId",
+               "remotePort",
+               "peerAddress",
+               "peerAs",
+               "state"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004, CALL-005, CALL-006, CALL-007\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/bgpSessions\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-008",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_enterprise_bgp_sessions",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/bgpSessions",
+         "plugins": [
+            "LLDP",
+            "bgpPeerTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/edges/<edgeLogicalId>/firewallIdpsStats'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004",
+               "CALL-005",
+               "CALL-006",
+               "CALL-007",
+               "CALL-008"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "ruleName",
+               "action",
+               "sourceAddress",
+               "destAddress"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004, CALL-005, CALL-006, CALL-007, CALL-008\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-009",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_edge_firewallIdpsStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats",
+         "plugins": [
+            "Firewall"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      },
+      {
+         "_developerGuide": {
+            "curlExample": "curl -s -b cookies.txt 'https://{orchestrator}/api/sdwan/v2/enterprises/<enterpriseLogicalId>/flowStats'",
+            "dependsOn": [
+               "CALL-001",
+               "CALL-002",
+               "CALL-003",
+               "CALL-004",
+               "CALL-005",
+               "CALL-006",
+               "CALL-007",
+               "CALL-008",
+               "CALL-009"
+            ],
+            "expectedResponseShape": {
+               "data": "...",
+               "limit": "...",
+               "metaData": "...",
+               "nextPageLink": "...",
+               "prevPageLink": "...",
+               "total": "..."
+            },
+            "fieldsWeNeed": [
+               "networkId",
+               "networkName",
+               "organizationId"
+            ],
+            "fillInstructions": "0. First collect responses for: CALL-001, CALL-002, CALL-003, CALL-004, CALL-005, CALL-006, CALL-007, CALL-008, CALL-009\n1. Call the VeloCloud API: GET /api/sdwan/v2/enterprises/{enterpriseLogicalId}/flowStats\n2. Copy the FULL JSON response body\n3. Paste it into customerData.sampleResponse (replace null)\n4. Set customerData.collectedAt to the current date"
+         },
+         "callId": "CALL-010",
+         "customerData": {
+            "collectedAt": "",
+            "responseNotes": "",
+            "sampleRequest": null,
+            "sampleResponse": null
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "v2_get_enterprise_flowStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/flowStats",
+         "plugins": [
+            "SdnNetworks"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         }
+      }
+   ],
+   "reviewQueue": {
+      "lowConfidenceMappings": [
+         {
+            "coverageCount": 4,
+            "method": "get",
+            "operationId": "v2_list_enterprises",
+            "path": "/api/sdwan/v2/enterprises/",
+            "plugins": [
+               "SdnFabricInterface",
+               "SwitchPortObject",
+               "VeloCloudOrganizations",
+               "ifConfig"
+            ],
+            "score": 0.27435897435897433
+         },
+         {
+            "coverageCount": 8,
+            "method": "get",
+            "operationId": "v2_get_edge_flowStats",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats",
+            "plugins": [
+               "Forwarding",
+               "IPAddress",
+               "Inventory",
+               "Performance",
+               "SystemInfo",
+               "VrfARP",
+               "atObject",
+               "ifPerf"
+            ],
+            "score": 0.3287412587412587
+         },
+         {
+            "coverageCount": 2,
+            "method": "get",
+            "operationId": "v2_get_edge_non_sdwan_tunnel_status",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/nonSdWanTunnelStatus",
+            "plugins": [
+               "Devices",
+               "bsnAPTable"
+            ],
+            "score": 0.6346153846153846
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "v2_get_edge_qos",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/qos",
+            "plugins": [
+               "DeviceProperty"
+            ],
+            "score": 0.3
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "v2_get_edge_linkQualityStats",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats",
+            "plugins": [
+               "RoutingPerfObject"
+            ],
+            "score": 0.18
+         },
+         {
+            "coverageCount": 2,
+            "method": "get",
+            "operationId": "v2_list_enterprise_client_devices",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices",
+            "plugins": [
+               "SdnEndpoint",
+               "bsnMobileStationTable"
+            ],
+            "score": 0.4884615384615385
+         },
+         {
+            "coverageCount": 3,
+            "method": "get",
+            "operationId": "v2_get_edge_healthStats",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats",
+            "plugins": [
+               "DeviceCpuStats",
+               "DeviceMemStats",
+               "Environmental"
+            ],
+            "score": 0.38661616161616164
+         },
+         {
+            "coverageCount": 2,
+            "method": "get",
+            "operationId": "v2_get_enterprise_bgp_sessions",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/bgpSessions",
+            "plugins": [
+               "LLDP",
+               "bgpPeerTable"
+            ],
+            "score": 0.355
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "v2_get_edge_firewallIdpsStats",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats",
+            "plugins": [
+               "Firewall"
+            ],
+            "score": 0.55
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "v2_get_enterprise_flowStats",
+            "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/flowStats",
+            "plugins": [
+               "SdnNetworks"
+            ],
+            "score": 0.3333333333333333
+         }
+      ],
+      "skippedPlugins": [
+         {
+            "plugin": "CDP",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "DeviceContext",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "VlanObject",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "VlanTrunkPortTable",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "Vrf",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "VrfHasInterface",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "VrfHasRTCommunity",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "VrfRoute",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "dot1dBasePortTable",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "hrStorageTable",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "ifStatus",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "ipRouteTable",
+            "reason": "no_suitable_operation_match"
+         }
+      ]
+   },
+   "schema": {
+      "name": "netmri-openapi-rpc-payload",
+      "version": "1.0"
+   },
+   "skippedPlugins": [
+      "CDP",
+      "DeviceContext",
+      "VlanObject",
+      "VlanTrunkPortTable",
+      "Vrf",
+      "VrfHasInterface",
+      "VrfHasRTCommunity",
+      "VrfRoute",
+      "dot1dBasePortTable",
+      "hrStorageTable",
+      "ifStatus",
+      "ipRouteTable"
+   ],
+   "stats": {
+      "matchedPlugins": 25,
+      "selectedOperations": 10,
+      "skippedPlugins": 12,
+      "totalPlugins": 37
+   },
+   "vendor": "VeloCloud"
+}

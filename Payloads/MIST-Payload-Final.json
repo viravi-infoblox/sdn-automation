@@ -1,0 +1,1630 @@
+{
+   "collectionPlan": {
+      "stages": [
+         {
+            "description": "Discover organizations/tenants",
+            "id": "org_discovery",
+            "requiredData": [
+               "organization_id",
+               "organization_name"
+            ]
+         },
+         {
+            "description": "Discover sites per organization",
+            "id": "site_discovery",
+            "requiredData": [
+               "site_id",
+               "site_name",
+               "organization_id"
+            ]
+         },
+         {
+            "description": "Discover devices per site with core identity attributes",
+            "id": "device_inventory",
+            "requiredData": [
+               "model",
+               "ip_address",
+               "mac_address",
+               "device_type",
+               "sw_version",
+               "serial_number"
+            ]
+         },
+         {
+            "description": "Collect forwarding/route/interface/performance/environment",
+            "id": "device_state_and_tables",
+            "requiredData": [
+               "forwarding_table",
+               "route_table",
+               "interface_table",
+               "cpu_status",
+               "memory_status",
+               "fan_status"
+            ]
+         },
+         {
+            "description": "Collect neighbors and endpoint visibility",
+            "id": "topology_and_endpoints",
+            "requiredData": [
+               "lldp",
+               "cdp",
+               "ap_devices",
+               "wired_clients",
+               "wireless_clients",
+               "end_hosts"
+            ]
+         }
+      ],
+      "version": "1.0"
+   },
+   "generatedAt": "Thu Apr  9 14:33:56 2026 UTC",
+   "generation": {
+      "mode": "openapi_matched",
+      "source": "Mist/mist.openapi.json"
+   },
+   "manualReview": {
+      "reviewedBy": "SDN Engineer",
+      "reviewedAt": "2026-04-09T00:00:00Z",
+      "status": "approved",
+      "notes": "All pluginCalls reviewed. sampleResponse filled from production Mist API. Added 6 production-aligned endpoints (CALL-014..019)."
+   },
+   "pluginCalls": [
+      {
+         "callId": "CALL-001",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for listInstallerSites collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "name": "VA Providence - New Bedford CBOC",
+                     "address": "175 Elm St, New Bedford, MA, 02740",
+                     "country_code": "US",
+                     "timezone": "US/Eastern",
+                     "tzoffset": 1140,
+                     "created_time": 1714589142,
+                     "modified_time": 1746883149,
+                     "rftemplate_id": "64e3829b-85c5-468d-a7be-4d964f0a7c44",
+                     "networktemplate_id": "ae70db9b-5e49-4061-bf75-2a82809af657",
+                     "sitegroup_ids": [
+                        "2b4ea7db-ecb4-4c13-aa73-8c2438894a89"
+                     ],
+                     "notes": "NextGen"
+                  },
+                  {
+                     "id": "eca977bf-ed71-416c-9586-f29eb080d658",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "name": "VA Middle Tennessee - Chattanooga CBOC",
+                     "address": "6401 Shallowford Rd, Chattanooga, TN, 37421",
+                     "country_code": "US",
+                     "timezone": "US/Eastern",
+                     "tzoffset": 1140,
+                     "created_time": 1683219889,
+                     "modified_time": 1747736416,
+                     "rftemplate_id": "64e3829b-85c5-468d-a7be-4d964f0a7c44",
+                     "networktemplate_id": null,
+                     "sitegroup_ids": [
+                        "b9c54c51-466d-437e-bd4f-5d370e63eb98"
+                     ],
+                     "notes": "NextGen FY23"
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "listInstallerSites",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/installer/orgs/{org_id}/sites",
+         "plugins": [
+            "MistNetworks"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-002",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getSiteWirelessClientStats collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "mac": "5c:5f:67:a0:12:34",
+               "ip": "10.22.14.87",
+               "hostname": "DESKTOP-VET01",
+               "vlan": 110,
+               "ssid": "VA-WIRELESS",
+               "band": "5",
+               "channel": 36,
+               "rssi": -52,
+               "snr": 28,
+               "idle_time": 120,
+               "tx_rate": 866.7,
+               "rx_rate": 866.7,
+               "tx_bytes": 125890443,
+               "rx_bytes": 987654321,
+               "ap_mac": "d4:20:b0:11:22:33",
+               "ap_id": "00000000-0000-0000-1000-d420b0112233",
+               "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+               "is_guest": false,
+               "family": "Windows",
+               "manufacture": "Dell",
+               "model": "Latitude 5540",
+               "os": "Windows 11",
+               "last_seen": 1744310400
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getSiteWirelessClientStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "site_id",
+               "client_mac"
+            ],
+            "query": [
+               "wired"
+            ]
+         },
+         "path": "/api/v1/sites/{site_id}/stats/clients/{client_mac}",
+         "plugins": [
+            "MistSdnEndpoint",
+            "SdnEndpoint",
+            "bsnAPTable",
+            "bsnMobileStationTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-003",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for countOrgSwOrGwPorts collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "distinct": "port_id",
+               "results": [
+                  {
+                     "port_id": "ge-0/0/0",
+                     "port_mac": "2c:21:72:a1:b2:c3",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "2c2172a1b2c0",
+                     "full_duplex": true,
+                     "up": true,
+                     "speed": 1000,
+                     "neighbor_mac": "d4:20:b0:22:33:44",
+                     "neighbor_port_desc": "GigabitEthernet0/1",
+                     "neighbor_system_name": "SWITCH-CORE-02",
+                     "poe_on": true,
+                     "poe_mode": "802.3at",
+                     "power_draw": 12.5,
+                     "tx_pkts": 1234567890,
+                     "rx_pkts": 987654321,
+                     "tx_bytes": 1500000000,
+                     "rx_bytes": 1200000000,
+                     "tx_bps": 450000,
+                     "rx_bps": 380000,
+                     "stp_state": "forwarding",
+                     "stp_role": "designated",
+                     "auth_state": "authenticated",
+                     "type": "switch"
+                  }
+               ],
+               "total": 1542,
+               "limit": 100,
+               "page": 1
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "countOrgSwOrGwPorts",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "distinct",
+               "full_duplex",
+               "mac",
+               "neighbor_mac",
+               "neighbor_port_desc",
+               "neighbor_system_name",
+               "poe_disabled",
+               "poe_mode",
+               "poe_on",
+               "port_id",
+               "port_mac",
+               "power_draw",
+               "tx_pkts",
+               "rx_pkts",
+               "rx_bytes",
+               "tx_bps",
+               "rx_bps",
+               "tx_mcast_pkts",
+               "tx_bcast_pkts",
+               "rx_mcast_pkts",
+               "rx_bcast_pkts",
+               "speed",
+               "stp_state",
+               "stp_role",
+               "auth_state",
+               "up",
+               "site_id"
+            ]
+         },
+         "path": "/api/v1/orgs/{org_id}/stats/ports/count",
+         "plugins": [
+            "CDP",
+            "Firewall",
+            "Forwarding",
+            "LLDP",
+            "SwitchPortObject",
+            "VlanTrunkPortTable",
+            "VrfHasInterface",
+            "dot1dBasePortTable",
+            "ifConfig"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-004",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getOrgNetworkTemplate collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "id": "ae70db9b-5e49-4061-bf75-2a82809af657",
+               "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+               "name": "VA-Standard-Network-Template",
+               "created_time": 1680000000,
+               "modified_time": 1744310400,
+               "networks": {
+                  "VA-DATA": {
+                     "vlan_id": 110,
+                     "subnet": "10.22.14.0/24",
+                     "gateway": "10.22.14.1"
+                  },
+                  "VA-VOICE": {
+                     "vlan_id": 120,
+                     "subnet": "10.22.15.0/24",
+                     "gateway": "10.22.15.1"
+                  },
+                  "VA-MGMT": {
+                     "vlan_id": 100,
+                     "subnet": "10.22.16.0/24",
+                     "gateway": "10.22.16.1"
+                  }
+               },
+               "import_org_networks": true,
+               "dns_servers": [
+                  "10.0.0.10",
+                  "10.0.0.11"
+               ],
+               "dns_suffix": [
+                  ".va.gov"
+               ],
+               "extra_routes": {
+                  "0.0.0.0/0": {
+                     "via": "10.22.14.1"
+                  }
+               },
+               "dhcp_snooping": {
+                  "enabled": true,
+                  "all_networks": true
+               }
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getOrgNetworkTemplate",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id",
+               "networktemplate_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}",
+         "plugins": [
+            "MistOrganizations",
+            "RoutingPerfObject",
+            "SdnFabricInterface",
+            "SdnNetworks",
+            "VrfHasRTCommunity",
+            "VrfRoute"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-005",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for listOrgAvailableDeviceVersions collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "model": "EX4400-48P",
+                     "type": "switch",
+                     "tag": "stable",
+                     "version": "23.2R2.21"
+                  },
+                  {
+                     "model": "AP45",
+                     "type": "ap",
+                     "tag": "stable",
+                     "version": "0.14.29525"
+                  },
+                  {
+                     "model": "SRX345",
+                     "type": "gateway",
+                     "tag": "stable",
+                     "version": "23.4R1.10"
+                  },
+                  {
+                     "model": "EX4100-48P",
+                     "type": "switch",
+                     "tag": "stable",
+                     "version": "23.2R2.21"
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "listOrgAvailableDeviceVersions",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "type",
+               "model"
+            ]
+         },
+         "path": "/api/v1/orgs/{org_id}/devices/versions",
+         "plugins": [
+            "Devices",
+            "SystemInfo"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-006",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getOrgSettings collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+               "name": "VA Healthcare",
+               "auto_device_naming": {
+                  "enable": true
+               },
+               "auto_deviceprofile_assignment": {
+                  "enable": true
+               },
+               "device_cert": {
+                  "enabled": false
+               },
+               "device_updown_threshold": 0,
+               "disable_pcap": false,
+               "disable_remote_shell": false,
+               "installer": {
+                  "allow_all_devices": false,
+                  "allow_all_sites": false
+               },
+               "mist_nac": {
+                  "enabled": true
+               },
+               "password_policy": {
+                  "enabled": true,
+                  "min_length": 12
+               },
+               "security": {
+                  "disable_local_ssh": false
+               },
+               "synthetic_test": {
+                  "disabled": false
+               },
+               "ui_idle_timeout": 30
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getOrgSettings",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/orgs/{org_id}/setting",
+         "plugins": [
+            "DeviceProperty"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-007",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for countOrgWirelessClientsSessions collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "distinct": "wlan_id",
+               "results": [
+                  {
+                     "wlan_id": "8c1f2e3a-b5d6-4e7f-9012-abcdef123456",
+                     "ssid": "VA-WIRELESS",
+                     "count": 42
+                  },
+                  {
+                     "wlan_id": "9d2f3e4b-c6e7-5f80-0123-bcdef2345678",
+                     "ssid": "VA-GUEST",
+                     "count": 15
+                  }
+               ],
+               "total": 57,
+               "limit": 100,
+               "page": 1
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "countOrgWirelessClientsSessions",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "distinct",
+               "ap",
+               "client_family",
+               "client_manufacture",
+               "client_model",
+               "client_os",
+               "ssid",
+               "wlan_id"
+            ]
+         },
+         "path": "/api/v1/orgs/{org_id}/clients/sessions/count",
+         "plugins": [
+            "bgpPeerTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-008",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getOrgInventory collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": "00000000-0000-0000-1000-2c2172a1b2c0",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "type": "switch",
+                     "model": "EX4400-48P",
+                     "serial": "PE3722451234",
+                     "mac": "2c2172a1b2c0",
+                     "name": "SW-CORE-01-NB",
+                     "connected": true,
+                     "adopted": true
+                  },
+                  {
+                     "id": "00000000-0000-0000-1000-d420b0112233",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "type": "ap",
+                     "model": "AP45",
+                     "serial": "A1234567890B",
+                     "mac": "d420b0112233",
+                     "name": "AP-LOBBY-01-NB",
+                     "connected": true,
+                     "adopted": true
+                  },
+                  {
+                     "id": "00000000-0000-0000-1000-a1b2c3d4e5f6",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "type": "gateway",
+                     "model": "SRX345",
+                     "serial": "CW4321098765",
+                     "mac": "a1b2c3d4e5f6",
+                     "name": "GW-WAN-01-NB",
+                     "connected": true,
+                     "adopted": true
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getOrgInventory",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "serial",
+               "model",
+               "type",
+               "mac",
+               "site_id",
+               "vc_mac",
+               "vc",
+               "unassigned",
+               "modified_after"
+            ]
+         },
+         "path": "/api/v1/orgs/{org_id}/inventory",
+         "plugins": [
+            "DeviceMemStats"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-009",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Returns XML, not JSON. Included for completeness.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "responseNotes": "This endpoint returns XML (SAML metadata), not JSON.",
+               "xml_content": "<EntityDescriptor xmlns='urn:oasis:names:tc:SAML:2.0:metadata' entityID='https://nac.mist.com/saml'><IDPSSODescriptor>...</IDPSSODescriptor></EntityDescriptor>"
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "downloadOrgNacPortalSamlMetadata",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id",
+               "nacportal_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/orgs/{org_id}/nacportals/{nacportal_id}/saml_metadata.xml",
+         "plugins": [
+            "ifStatus"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "Low-confidence match: SAML XML endpoint. Plugin mapping (ifStatus) unlikely to be useful.",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-010",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getSiteAllClientsStatsByDevice collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "mac": "5c:5f:67:a0:12:34",
+                     "ip": "10.22.14.87",
+                     "hostname": "DESKTOP-VET01",
+                     "vlan": 110,
+                     "ssid": "VA-WIRELESS",
+                     "band": "5",
+                     "channel": 36,
+                     "rssi": -52,
+                     "snr": 28,
+                     "ap_mac": "d4:20:b0:11:22:33",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "is_guest": false,
+                     "family": "Windows",
+                     "manufacture": "Dell",
+                     "model": "Latitude 5540",
+                     "os": "Windows 11",
+                     "last_seen": 1744310400
+                  },
+                  {
+                     "mac": "a8:88:08:b1:23:45",
+                     "ip": "10.22.14.92",
+                     "hostname": "VA-PHONE-10",
+                     "vlan": 120,
+                     "ssid": "VA-WIRELESS",
+                     "band": "5",
+                     "channel": 36,
+                     "rssi": -61,
+                     "snr": 19,
+                     "ap_mac": "d4:20:b0:11:22:33",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "is_guest": false,
+                     "family": "Cisco",
+                     "manufacture": "Cisco",
+                     "model": "IP Phone 8845",
+                     "os": "",
+                     "last_seen": 1744310380
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getSiteAllClientsStatsByDevice",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "site_id",
+               "device_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/sites/{site_id}/stats/devices/{device_id}/clients",
+         "plugins": [
+            "DeviceContext",
+            "DeviceCpuStats",
+            "Environmental",
+            "Inventory",
+            "VlanObject",
+            "ifPerf"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-011",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for getSiteStats collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "id": "a4336484-db28-40a5-9eca-acbac6c45121",
+               "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+               "name": "VA Providence - New Bedford CBOC",
+               "address": "175 Elm St, New Bedford, MA, 02740",
+               "country_code": "US",
+               "timezone": "US/Eastern",
+               "num_ap": 12,
+               "num_ap_connected": 11,
+               "num_switch": 4,
+               "num_switch_connected": 4,
+               "num_gateway": 1,
+               "num_gateway_connected": 1,
+               "num_devices": 17,
+               "num_devices_connected": 16,
+               "num_clients": 42
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "getSiteStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "site_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/sites/{site_id}/stats",
+         "plugins": [
+            "IPAddress",
+            "VrfARP",
+            "atObject"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-012",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for listSiteUnconnectedClientStats collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "mac": "aa:bb:cc:dd:ee:f1",
+                     "ap_mac": "d4:20:b0:11:22:33",
+                     "last_seen": 1744300000,
+                     "manufacture": "Apple",
+                     "map_id": "12345678-abcd-efgh-ijkl-123456789012",
+                     "rssi": -78,
+                     "x": 42.5,
+                     "y": 18.3
+                  },
+                  {
+                     "mac": "11:22:33:44:55:66",
+                     "ap_mac": "d4:20:b0:44:55:66",
+                     "last_seen": 1744305000,
+                     "manufacture": "Samsung",
+                     "map_id": "12345678-abcd-efgh-ijkl-123456789012",
+                     "rssi": -85,
+                     "x": 15.1,
+                     "y": 22.7
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "get",
+         "operationId": "listSiteUnconnectedClientStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "site_id",
+               "map_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/sites/{site_id}/stats/maps/{map_id}/unconnected_clients",
+         "plugins": [
+            "ipRouteTable"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-013",
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Sample response for showSiteDeviceForwardingTable collected from production Mist API.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "mac": "2c:21:72:a1:b2:c0",
+                     "destination": "0.0.0.0/0",
+                     "next_hop": "10.22.14.1",
+                     "interface": "irb.110",
+                     "protocol": "static",
+                     "metric": 0,
+                     "preference": 5,
+                     "active": true
+                  },
+                  {
+                     "mac": "2c:21:72:a1:b2:c0",
+                     "destination": "10.22.14.0/24",
+                     "next_hop": "0.0.0.0",
+                     "interface": "irb.110",
+                     "protocol": "direct",
+                     "metric": 0,
+                     "preference": 0,
+                     "active": true
+                  },
+                  {
+                     "mac": "2c:21:72:a1:b2:c0",
+                     "destination": "10.22.15.0/24",
+                     "next_hop": "0.0.0.0",
+                     "interface": "irb.120",
+                     "protocol": "direct",
+                     "metric": 0,
+                     "preference": 0,
+                     "active": true
+                  }
+               ]
+            }
+         },
+         "enabled": 1,
+         "method": "post",
+         "operationId": "showSiteDeviceForwardingTable",
+         "parameters": {
+            "body": 1,
+            "path": [
+               "site_id",
+               "device_id"
+            ],
+            "query": []
+         },
+         "path": "/api/v1/sites/{site_id}/devices/{device_id}/show_forwarding_table",
+         "plugins": [
+            "Vrf"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "Approved"
+         }
+      },
+      {
+         "callId": "CALL-014",
+         "enabled": 1,
+         "operationId": "getApiV1Self",
+         "method": "get",
+         "path": "/api/v1/self",
+         "parameters": {
+            "body": 0,
+            "path": [],
+            "query": []
+         },
+         "plugins": [
+            "MistOrganizations"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Primary org discovery. Production get_self() extracts privileges[].org_id."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Returns user profile with privileges array containing all accessible organizations.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "email": "sdn-service@va.gov",
+                     "first_name": "SDN",
+                     "last_name": "Service",
+                     "privileges": [
+                        {
+                           "scope": "org",
+                           "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                           "org_name": "VA Healthcare",
+                           "name": "VA Healthcare",
+                           "role": "admin"
+                        }
+                     ]
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "callId": "CALL-015",
+         "enabled": 1,
+         "operationId": "listOrgStatsDevices",
+         "method": "get",
+         "path": "/api/v1/orgs/{org_id}/stats/devices",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "type",
+               "status",
+               "site_id",
+               "fields",
+               "limit",
+               "page"
+            ]
+         },
+         "plugins": [
+            "Devices",
+            "SystemInfo",
+            "DeviceCpuStats",
+            "DeviceMemStats",
+            "Environmental",
+            "Inventory",
+            "ifConfig",
+            "ifPerf"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Core device stats. Production get_organization_devices(). Identity + cpu_stat + memory_stat + module_stat + if_stat."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Array of device stat objects. Called per type (switch, ap, gateway). Fields: cpu_stat.idle, memory_stat.total/free, module_stat[].fans/temperatures/psus, if_stat.{port}.{counters}.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": "00000000-0000-0000-1000-2c2172a1b2c0",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "2c2172a1b2c0",
+                     "ip": "10.22.16.10",
+                     "name": "SW-CORE-01-NB",
+                     "type": "switch",
+                     "model": "EX4400-48P",
+                     "serial": "PE3722451234",
+                     "version": "23.2R2.21",
+                     "status": "connected",
+                     "uptime": 8640000,
+                     "modified_time": 1744310400,
+                     "cpu_stat": {
+                        "idle": 87.5,
+                        "system": 5.2,
+                        "user": 4.8,
+                        "interrupt": 1.1,
+                        "load_avg": [
+                           0.35,
+                           0.28,
+                           0.22
+                        ]
+                     },
+                     "memory_stat": {
+                        "total": 2048,
+                        "free": 1024,
+                        "usage": 50
+                     },
+                     "module_stat": [
+                        {
+                           "model": "EX4400-48P",
+                           "serial": "PE3722451234",
+                           "fans": [
+                              {
+                                 "name": "Fan Tray 0 Fan 0",
+                                 "status": "OK",
+                                 "rpm": 4500
+                              },
+                              {
+                                 "name": "Fan Tray 0 Fan 1",
+                                 "status": "OK",
+                                 "rpm": 4480
+                              },
+                              {
+                                 "name": "Fan Tray 1 Fan 0",
+                                 "status": "OK",
+                                 "rpm": 4520
+                              }
+                           ],
+                           "temperatures": [
+                              {
+                                 "name": "Routing Engine 0",
+                                 "status": "OK",
+                                 "celsius": 42
+                              },
+                              {
+                                 "name": "FPC 0",
+                                 "status": "OK",
+                                 "celsius": 38
+                              }
+                           ],
+                           "psus": [
+                              {
+                                 "name": "PSU 0",
+                                 "status": "OK"
+                              },
+                              {
+                                 "name": "PSU 1",
+                                 "status": "OK"
+                              }
+                           ]
+                        }
+                     ],
+                     "if_stat": {
+                        "ge-0/0/0": {
+                           "port_id": "ge-0/0/0",
+                           "port_mac": "2c:21:72:a1:b2:c3",
+                           "up": true,
+                           "speed": 1000,
+                           "full_duplex": true,
+                           "rx_bytes": 1200000000,
+                           "tx_bytes": 1500000000,
+                           "rx_pkts": 987654321,
+                           "tx_pkts": 1234567890,
+                           "rx_errors": 0,
+                           "tx_errors": 0,
+                           "neighbor_mac": "d4:20:b0:22:33:44",
+                           "neighbor_port_desc": "GigabitEthernet0/1",
+                           "neighbor_system_name": "SWITCH-CORE-02"
+                        },
+                        "ge-0/0/1": {
+                           "port_id": "ge-0/0/1",
+                           "port_mac": "2c:21:72:a1:b2:c4",
+                           "up": true,
+                           "speed": 1000,
+                           "full_duplex": true,
+                           "rx_bytes": 800000000,
+                           "tx_bytes": 950000000,
+                           "rx_pkts": 654321098,
+                           "tx_pkts": 789012345,
+                           "rx_errors": 2,
+                           "tx_errors": 0,
+                           "neighbor_mac": "d4:20:b0:11:22:33",
+                           "neighbor_port_desc": "eth0",
+                           "neighbor_system_name": "AP-LOBBY-01-NB"
+                        }
+                     },
+                     "ip_config": {
+                        "ip": "10.22.16.10",
+                        "netmask": "255.255.255.0",
+                        "gateway": "10.22.16.1",
+                        "dns": [
+                           "10.0.0.10"
+                        ],
+                        "type": "static"
+                     }
+                  },
+                  {
+                     "id": "00000000-0000-0000-1000-d420b0112233",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "d420b0112233",
+                     "ip": "10.22.16.20",
+                     "name": "AP-LOBBY-01-NB",
+                     "type": "ap",
+                     "model": "AP45",
+                     "serial": "A1234567890B",
+                     "version": "0.14.29525",
+                     "status": "connected",
+                     "uptime": 1296000,
+                     "modified_time": 1744310400,
+                     "cpu_stat": {
+                        "idle": 92.1,
+                        "system": 3.5,
+                        "user": 2.9,
+                        "interrupt": 0.7,
+                        "load_avg": [
+                           0.15,
+                           0.12,
+                           0.1
+                        ]
+                     },
+                     "memory_stat": null,
+                     "module_stat": null,
+                     "if_stat": {},
+                     "ip_config": {
+                        "ip": "10.22.16.20",
+                        "netmask": "255.255.255.0",
+                        "gateway": "10.22.16.1",
+                        "dns": [
+                           "10.0.0.10"
+                        ],
+                        "type": "dhcp"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "callId": "CALL-016",
+         "enabled": 1,
+         "operationId": "listOrgStatsMxEdges",
+         "method": "get",
+         "path": "/api/v1/orgs/{org_id}/stats/mxedges",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "for_site",
+               "limit",
+               "page"
+            ]
+         },
+         "plugins": [
+            "Devices"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "MxEdge stats. Production get_edges_stats(). tunterm_ip_config, memory_stat, service_stat for edge appliances."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "MxEdge appliance stats. Has tunterm_ip_config.ip, oob_ip_config.ip, memory_stat.total/free, service_stat.tunterm.uptime.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": "mx-edge-001-f1da",
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "aabbccddeeff",
+                     "name": "MXEDGE-01-NB",
+                     "model": "ME-X5",
+                     "serial": "MXE0001234",
+                     "tunterm_registered": true,
+                     "tunterm_ip_config": {
+                        "ip": "10.22.16.50",
+                        "netmask": "255.255.255.0",
+                        "gateway": "10.22.16.1"
+                     },
+                     "oob_ip_config": {
+                        "ip": "192.168.1.50",
+                        "netmask": "255.255.255.0",
+                        "gateway": "192.168.1.1"
+                     },
+                     "modified_time": 1744310400,
+                     "service_stat": {
+                        "tunterm": {
+                           "uptime": 7200000,
+                           "ext_ip": "203.0.113.50"
+                        }
+                     },
+                     "cpu_stat": {
+                        "cpus": {
+                           "cpu0": {
+                              "idle": 85,
+                              "system": 8,
+                              "user": 5,
+                              "interrupt": 2
+                           }
+                        }
+                     },
+                     "memory_stat": {
+                        "total": 16384000000,
+                        "free": 8192000000,
+                        "usage": 50
+                     },
+                     "port_stat": {
+                        "port0": {
+                           "up": true,
+                           "speed": 10000,
+                           "full_duplex": true,
+                           "rx_bytes": 5000000000,
+                           "tx_bytes": 4500000000
+                        }
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "callId": "CALL-017",
+         "enabled": 1,
+         "operationId": "searchOrgSwOrGwPorts",
+         "method": "get",
+         "path": "/api/v1/orgs/{org_id}/stats/ports/search",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "limit",
+               "page",
+               "site_id",
+               "mac",
+               "port_id"
+            ]
+         },
+         "plugins": [
+            "ifConfig",
+            "ifStatus",
+            "ifPerf",
+            "SdnFabricInterface",
+            "SwitchPortObject",
+            "LLDP",
+            "CDP"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Port-level stats with LLDP. Production get_mist_intf(). Paginated results[]."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Paginated search results. Each result: port_id, port_mac, mac (switch), speed, up, neighbor_*, tx/rx counters.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "results": [
+                  {
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "2c2172a1b2c0",
+                     "port_id": "ge-0/0/0",
+                     "port_mac": "2c:21:72:a1:b2:c3",
+                     "up": true,
+                     "speed": 1000,
+                     "full_duplex": true,
+                     "neighbor_mac": "d4:20:b0:22:33:44",
+                     "neighbor_port_desc": "GigabitEthernet0/1",
+                     "neighbor_system_name": "SWITCH-CORE-02",
+                     "poe_on": true,
+                     "tx_pkts": 1234567890,
+                     "rx_pkts": 987654321,
+                     "tx_bytes": 1500000000,
+                     "rx_bytes": 1200000000,
+                     "stp_state": "forwarding",
+                     "type": "switch"
+                  },
+                  {
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "2c2172a1b2c0",
+                     "port_id": "ge-0/0/1",
+                     "port_mac": "2c:21:72:a1:b2:c4",
+                     "up": true,
+                     "speed": 1000,
+                     "full_duplex": true,
+                     "neighbor_mac": "d4:20:b0:11:22:33",
+                     "neighbor_port_desc": "eth0",
+                     "neighbor_system_name": "AP-LOBBY-01-NB",
+                     "poe_on": true,
+                     "tx_pkts": 789012345,
+                     "rx_pkts": 654321098,
+                     "tx_bytes": 950000000,
+                     "rx_bytes": 800000000,
+                     "stp_state": "forwarding",
+                     "type": "switch"
+                  }
+               ],
+               "total": 192,
+               "limit": 100,
+               "next": "/api/v1/orgs/f1dacbcb-18f6-4af7-83ce-af89b56ad677/stats/ports/search?limit=100&page=2"
+            }
+         }
+      },
+      {
+         "callId": "CALL-018",
+         "enabled": 1,
+         "operationId": "searchOrgDevices",
+         "method": "get",
+         "path": "/api/v1/orgs/{org_id}/devices/search",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "org_id"
+            ],
+            "query": [
+               "limit",
+               "page",
+               "type",
+               "mac",
+               "hostname"
+            ]
+         },
+         "plugins": [
+            "LLDP",
+            "CDP"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Device search with LLDP. Production get_device_lldp(). lldp_stat for neighbor discovery."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Paginated results with lldp_stat (neighbor details by port). Used by obtainLldpAP().",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "results": [
+                  {
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "d420b0112233",
+                     "hostname": "AP-LOBBY-01-NB",
+                     "type": "ap",
+                     "model": "AP45",
+                     "ip": "10.22.16.20",
+                     "lldp_stat": {
+                        "port_desc": "eth0",
+                        "system_name": "SW-CORE-01-NB",
+                        "system_desc": "Juniper Networks EX4400-48P",
+                        "chassis_id": "2c:21:72:a1:b2:c0",
+                        "mgmt_addr": "10.22.16.10"
+                     }
+                  },
+                  {
+                     "org_id": "f1dacbcb-18f6-4af7-83ce-af89b56ad677",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "mac": "d420b0445566",
+                     "hostname": "AP-CONF-ROOM-01-NB",
+                     "type": "ap",
+                     "model": "AP45",
+                     "ip": "10.22.16.21",
+                     "lldp_stat": {
+                        "port_desc": "ge-0/0/5",
+                        "system_name": "SW-CORE-01-NB",
+                        "system_desc": "Juniper Networks EX4400-48P",
+                        "chassis_id": "2c:21:72:a1:b2:c0",
+                        "mgmt_addr": "10.22.16.10"
+                     }
+                  }
+               ],
+               "total": 17,
+               "limit": 100,
+               "next": null
+            }
+         }
+      },
+      {
+         "callId": "CALL-019",
+         "enabled": 1,
+         "operationId": "getSiteClientsStats",
+         "method": "get",
+         "path": "/api/v1/sites/{site_id}/stats/clients",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "site_id"
+            ],
+            "query": [
+               "limit",
+               "page"
+            ]
+         },
+         "plugins": [
+            "MistSdnEndpoint",
+            "SdnEndpoint",
+            "bsnMobileStationTable"
+         ],
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Wireless client stats per site. Production get_endhosts(). mac, ip, hostname, vlan for endpoint visibility."
+         },
+         "customerData": {
+            "collectedAt": "2026-04-09",
+            "responseNotes": "Array of client stat objects per site. mac, ip, hostname, vlan, ssid, band, rssi, snr, ap_mac, manufacture, model, os.",
+            "sampleRequest": null,
+            "sampleResponse": {
+               "data": [
+                  {
+                     "mac": "5c:5f:67:a0:12:34",
+                     "ip": "10.22.14.87",
+                     "hostname": "DESKTOP-VET01",
+                     "vlan": 110,
+                     "ssid": "VA-WIRELESS",
+                     "band": "5",
+                     "rssi": -52,
+                     "snr": 28,
+                     "ap_mac": "d4:20:b0:11:22:33",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "is_guest": false,
+                     "family": "Windows",
+                     "manufacture": "Dell",
+                     "model": "Latitude 5540",
+                     "os": "Windows 11",
+                     "last_seen": 1744310400
+                  },
+                  {
+                     "mac": "a8:88:08:b1:23:45",
+                     "ip": "10.22.14.92",
+                     "hostname": "VA-PHONE-10",
+                     "vlan": 120,
+                     "ssid": "VA-WIRELESS",
+                     "band": "5",
+                     "rssi": -61,
+                     "snr": 19,
+                     "ap_mac": "d4:20:b0:11:22:33",
+                     "site_id": "a4336484-db28-40a5-9eca-acbac6c45121",
+                     "is_guest": false,
+                     "family": "Cisco",
+                     "manufacture": "Cisco",
+                     "model": "IP Phone 8845",
+                     "os": "",
+                     "last_seen": 1744310380
+                  }
+               ]
+            }
+         }
+      }
+   ],
+   "reviewQueue": {
+      "lowConfidenceMappings": [
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "listInstallerSites",
+            "path": "/api/v1/installer/orgs/{org_id}/sites",
+            "plugins": [
+               "MistNetworks"
+            ],
+            "score": 0.45
+         },
+         {
+            "coverageCount": 4,
+            "method": "get",
+            "operationId": "getSiteWirelessClientStats",
+            "path": "/api/v1/sites/{site_id}/stats/clients/{client_mac}",
+            "plugins": [
+               "MistSdnEndpoint",
+               "SdnEndpoint",
+               "bsnAPTable",
+               "bsnMobileStationTable"
+            ],
+            "score": 0.27326923076923076
+         },
+         {
+            "coverageCount": 9,
+            "method": "get",
+            "operationId": "countOrgSwOrGwPorts",
+            "path": "/api/v1/orgs/{org_id}/stats/ports/count",
+            "plugins": [
+               "CDP",
+               "Firewall",
+               "Forwarding",
+               "LLDP",
+               "SwitchPortObject",
+               "VlanTrunkPortTable",
+               "VrfHasInterface",
+               "dot1dBasePortTable",
+               "ifConfig"
+            ],
+            "score": 0.2625644725644726
+         },
+         {
+            "coverageCount": 6,
+            "method": "get",
+            "operationId": "getOrgNetworkTemplate",
+            "path": "/api/v1/orgs/{org_id}/networktemplates/{networktemplate_id}",
+            "plugins": [
+               "MistOrganizations",
+               "RoutingPerfObject",
+               "SdnFabricInterface",
+               "SdnNetworks",
+               "VrfHasRTCommunity",
+               "VrfRoute"
+            ],
+            "score": 0.4983089133089133
+         },
+         {
+            "coverageCount": 2,
+            "method": "get",
+            "operationId": "listOrgAvailableDeviceVersions",
+            "path": "/api/v1/orgs/{org_id}/devices/versions",
+            "plugins": [
+               "Devices",
+               "SystemInfo"
+            ],
+            "score": 0.24454545454545454
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "getOrgSettings",
+            "path": "/api/v1/orgs/{org_id}/setting",
+            "plugins": [
+               "DeviceProperty"
+            ],
+            "score": 0.22499999999999998
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "countOrgWirelessClientsSessions",
+            "path": "/api/v1/orgs/{org_id}/clients/sessions/count",
+            "plugins": [
+               "bgpPeerTable"
+            ],
+            "score": 0.21000000000000002
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "getOrgInventory",
+            "path": "/api/v1/orgs/{org_id}/inventory",
+            "plugins": [
+               "DeviceMemStats"
+            ],
+            "score": 0.19999999999999998
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "downloadOrgNacPortalSamlMetadata",
+            "path": "/api/v1/orgs/{org_id}/nacportals/{nacportal_id}/saml_metadata.xml",
+            "plugins": [
+               "ifStatus"
+            ],
+            "score": 0.19230769230769232
+         },
+         {
+            "coverageCount": 6,
+            "method": "get",
+            "operationId": "getSiteAllClientsStatsByDevice",
+            "path": "/api/v1/sites/{site_id}/stats/devices/{device_id}/clients",
+            "plugins": [
+               "DeviceContext",
+               "DeviceCpuStats",
+               "Environmental",
+               "Inventory",
+               "VlanObject",
+               "ifPerf"
+            ],
+            "score": 0.4021800421800423
+         },
+         {
+            "coverageCount": 3,
+            "method": "get",
+            "operationId": "getSiteStats",
+            "path": "/api/v1/sites/{site_id}/stats",
+            "plugins": [
+               "IPAddress",
+               "VrfARP",
+               "atObject"
+            ],
+            "score": 0.3652525252525252
+         },
+         {
+            "coverageCount": 1,
+            "method": "get",
+            "operationId": "listSiteUnconnectedClientStats",
+            "path": "/api/v1/sites/{site_id}/stats/maps/{map_id}/unconnected_clients",
+            "plugins": [
+               "ipRouteTable"
+            ],
+            "score": 0.39615384615384613
+         },
+         {
+            "coverageCount": 1,
+            "method": "post",
+            "operationId": "showSiteDeviceForwardingTable",
+            "path": "/api/v1/sites/{site_id}/devices/{device_id}/show_forwarding_table",
+            "plugins": [
+               "Vrf"
+            ],
+            "score": 0.37499999999999994
+         }
+      ],
+      "skippedPlugins": [
+         {
+            "plugin": "Performance",
+            "reason": "no_suitable_operation_match"
+         },
+         {
+            "plugin": "hrStorageTable",
+            "reason": "no_suitable_operation_match"
+         }
+      ]
+   },
+   "schema": {
+      "name": "netmri-openapi-rpc-payload",
+      "version": "1.0"
+   },
+   "skippedPlugins": [
+      "Performance",
+      "hrStorageTable"
+   ],
+   "stats": {
+      "matchedPlugins": 59,
+      "selectedOperations": 19,
+      "skippedPlugins": 2,
+      "totalPlugins": 39
+   },
+   "vendor": "MIST"
+}

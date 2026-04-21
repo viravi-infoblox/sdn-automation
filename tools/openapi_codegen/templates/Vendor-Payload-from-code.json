@@ -1,0 +1,115 @@
+{
+   "collectionPlan": {
+      "stages": [
+         {
+            "description": "Discover organizations/tenants",
+            "id": "org_discovery",
+            "requiredData": [
+               "organization_id",
+               "organization_name"
+            ]
+         },
+         {
+            "description": "Discover sites per organization",
+            "id": "site_discovery",
+            "requiredData": [
+               "site_id",
+               "site_name",
+               "organization_id"
+            ]
+         },
+         {
+            "description": "Discover devices per site with core identity attributes",
+            "id": "device_inventory",
+            "requiredData": [
+               "model",
+               "ip_address",
+               "mac_address",
+               "device_type",
+               "sw_version",
+               "serial_number"
+            ]
+         },
+         {
+            "description": "Collect forwarding/route/interface/performance/environment",
+            "id": "device_state_and_tables",
+            "requiredData": [
+               "forwarding_table",
+               "route_table",
+               "interface_table",
+               "cpu_status",
+               "memory_status",
+               "fan_status"
+            ]
+         },
+         {
+            "description": "Collect neighbors and endpoint visibility",
+            "id": "topology_and_endpoints",
+            "requiredData": [
+               "lldp",
+               "cdp",
+               "ap_devices",
+               "wired_clients",
+               "wireless_clients",
+               "end_hosts"
+            ]
+         }
+      ],
+      "version": "1.0"
+   },
+   "generatedAt": "REPLACE_WITH_UTC_TIMESTAMP",
+   "manualReview": {
+      "notes": "Template for curated mapping. Fill pluginCalls and approve before stage-2 module generation.",
+      "reviewedAt": "",
+      "reviewedBy": "",
+      "status": "pending"
+   },
+   "pluginCalls": [
+      {
+         "apiExamples": {
+            "request": null,
+            "response": null,
+            "responseStatus": null
+         },
+         "callId": "CALL-001",
+         "coverageCount": 1,
+         "coverageScore": 0.0,
+         "enabled": 1,
+         "matched": 1,
+         "method": "get",
+         "operationId": "replaceWithOperationId",
+         "parameters": {
+            "body": 0,
+            "path": [],
+            "query": []
+         },
+         "path": "/replace/with/openapi/path",
+         "plugin": "ReplacePluginName",
+         "plugins": [
+            "ReplacePluginName"
+         ],
+         "review": {
+            "action": "keep",
+            "notes": "",
+            "status": "pending"
+         },
+         "score": 1.0
+      }
+   ],
+   "reviewQueue": {
+      "lowConfidenceMappings": [],
+      "skippedPlugins": []
+   },
+   "schema": {
+      "name": "netmri-openapi-rpc-payload",
+      "version": "1.0"
+   },
+   "skippedPlugins": [],
+   "stats": {
+      "matchedPlugins": 1,
+      "selectedOperations": 1,
+      "skippedPlugins": 0,
+      "totalPlugins": 1
+   },
+   "vendor": "Vendor"
+}

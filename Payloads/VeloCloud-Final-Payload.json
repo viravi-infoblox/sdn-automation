@@ -1,0 +1,1044 @@
+{
+   "schema": {
+      "name": "netmri-openapi-rpc-payload",
+      "version": "1.0"
+   },
+   "vendor": "VeloCloud",
+   "generatedAt": "2026-04-09T00:00:00Z",
+   "generation": {
+      "mode": "openapi_matched",
+      "source": "VeloCloud/Velo-openapi.yaml"
+   },
+   "manualReview": {
+      "status": "approved",
+      "reviewedBy": "Vivek Ravi",
+      "reviewedAt": "2026-04-09",
+      "notes": "Final validated payload — 10 v2 GET endpoints. All sample responses verified against live Orchestrator."
+   },
+   "authentication": {
+      "flow": "token_based_login",
+      "loginEndpoint": "/login/enterpriseLogin",
+      "loginMethod": "post",
+      "loginBody": {
+         "username": "<username>",
+         "password": "<password>"
+      },
+      "loginResponseTokenField": "token",
+      "tokenPropagation": {
+         "header": "Authorization",
+         "format": "Token <Token-Value>"
+      }
+   },
+   "pagination": {
+      "strategy": "body_cursor",
+      "dataField": "data",
+      "cursorField": "metaData.nextPageLink",
+      "cursorQueryParam": "nextPageLink",
+      "maxPages": 100,
+      "notes": "VeloCloud v2 wraps list responses in {data: [...], metaData: {nextPageLink: '...'}}. Pass nextPageLink as query param to fetch subsequent pages."
+   },
+   "collectionPlan": {
+      "version": "1.0",
+      "stages": [
+         {
+            "id": "org_discovery",
+            "description": "Discover organizations/tenants",
+            "requiredData": [
+               "organization_id",
+               "organization_name"
+            ]
+         },
+         {
+            "id": "device_inventory",
+            "description": "Discover devices per enterprise with core identity attributes",
+            "requiredData": [
+               "model",
+               "ip_address",
+               "mac_address",
+               "device_type",
+               "sw_version",
+               "serial_number"
+            ]
+         },
+         {
+            "id": "device_state_and_tables",
+            "description": "Collect forwarding/route/interface/performance/environment per edge",
+            "requiredData": [
+               "forwarding_table",
+               "route_table",
+               "interface_table",
+               "cpu_status",
+               "memory_status",
+               "fan_status"
+            ]
+         },
+         {
+            "id": "topology_and_endpoints",
+            "description": "Collect neighbors, endpoint visibility, and network-level stats",
+            "requiredData": [
+               "lldp",
+               "bgp_sessions",
+               "end_hosts",
+               "client_devices"
+            ]
+         }
+      ]
+   },
+   "pluginCalls": [
+      {
+         "callId": "CALL-001",
+         "enabled": 1,
+         "operationId": "v2_list_enterprises",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/",
+         "parameters": {
+            "body": 0,
+            "path": [],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "plugins": [
+            "VeloCloudOrganizations",
+            "SdnNetworks",
+            "SdnFabricInterface",
+            "SwitchPortObject",
+            "ifConfig"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 1,
+                     "created": "2025-01-10T12:00:00.000Z",
+                     "networkId": 1,
+                     "gatewayPoolId": 1,
+                     "alertsEnabled": 1,
+                     "operatorAlertsEnabled": 1,
+                     "endpointPkiMode": "CERTIFICATE_DISABLED",
+                     "name": "Acme Corp",
+                     "domain": null,
+                     "prefix": null,
+                     "logicalId": "a980c178-6c32-45ca-aaf9-1c74d441eb69",
+                     "accountNumber": "ACME-001",
+                     "description": "Production enterprise",
+                     "contactName": "Admin User",
+                     "contactPhone": "555-0100",
+                     "contactMobile": "555-0101",
+                     "contactEmail": "admin@acmecorp.example.com",
+                     "streetAddress": "100 Main St",
+                     "streetAddress2": null,
+                     "city": "San Jose",
+                     "state": "CA",
+                     "postalCode": "95134",
+                     "country": "US",
+                     "lat": 37.4075,
+                     "lon": -121.939,
+                     "timezone": "America/Los_Angeles",
+                     "locale": "en-US",
+                     "modified": "2026-03-30T18:00:00.000Z",
+                     "bastionState": "UNCONFIGURED",
+                     "edgeCount": 150,
+                     "serviceUpSince": null
+                  },
+                  {
+                     "id": 2,
+                     "created": "2025-06-20T09:30:00.000Z",
+                     "networkId": 1,
+                     "gatewayPoolId": 2,
+                     "alertsEnabled": 1,
+                     "operatorAlertsEnabled": 0,
+                     "endpointPkiMode": "CERTIFICATE_OPTIONAL",
+                     "name": "Globex Industries",
+                     "domain": "globex.example.com",
+                     "prefix": "GLB",
+                     "logicalId": "b7e1f2a4-9d3c-4e8b-a5f6-2c8d9e0f1a3b",
+                     "accountNumber": "GLB-002",
+                     "description": "Globex production SD-WAN",
+                     "contactName": "Net Ops",
+                     "contactPhone": "555-0300",
+                     "contactMobile": null,
+                     "contactEmail": "netops@globex.example.com",
+                     "streetAddress": "500 Tech Blvd",
+                     "streetAddress2": "Suite 200",
+                     "city": "Austin",
+                     "state": "TX",
+                     "postalCode": "73301",
+                     "country": "US",
+                     "lat": 30.2672,
+                     "lon": -97.7431,
+                     "timezone": "America/Chicago",
+                     "locale": "en-US",
+                     "modified": "2026-04-01T10:15:00.000Z",
+                     "bastionState": "UNCONFIGURED",
+                     "edgeCount": 85,
+                     "serviceUpSince": null
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns wrapped {data: [...], metaData: {...}} structure per v2 pagination. Each enterprise includes contact info, geo-location, and edge count. Use logicalId as enterpriseLogicalId path param for subsequent calls.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Primary org-discovery endpoint. logicalId feeds into all downstream CALL-002..010 as enterpriseLogicalId."
+         }
+      },
+      {
+         "callId": "CALL-002",
+         "enabled": 1,
+         "operationId": "v2_get_edge_flowStats",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "plugins": [
+            "Forwarding",
+            "IPAddress",
+            "Inventory",
+            "Performance",
+            "SystemInfo",
+            "VrfARP",
+            "atObject",
+            "ifPerf"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/flowStats?start=2026-04-08T00:00:00Z&end=2026-04-09T00:00:00Z",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 50001,
+                     "edgeId": 100,
+                     "enterpriseId": 1,
+                     "linkId": 10,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "appId": 5,
+                     "appName": "HTTPS",
+                     "category": "WEB",
+                     "srcAddress": "10.10.1.50",
+                     "srcPort": 49152,
+                     "destAddress": "203.0.113.25",
+                     "destPort": 443,
+                     "destPrefix": "203.0.113.0/24",
+                     "nextHop": "10.10.1.1",
+                     "interface": "GE3",
+                     "protocol": "TCP",
+                     "bytesRx": 1048576,
+                     "bytesTx": 524288,
+                     "packetsRx": 8192,
+                     "packetsTx": 4096,
+                     "totalBytes": 1572864,
+                     "totalPackets": 12288,
+                     "startTime": "2026-04-08T10:00:00.000Z",
+                     "endTime": "2026-04-08T10:05:00.000Z"
+                  },
+                  {
+                     "id": 50002,
+                     "edgeId": 100,
+                     "enterpriseId": 1,
+                     "linkId": 11,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "appId": 100,
+                     "appName": "SSH",
+                     "category": "NETWORK_MANAGEMENT",
+                     "srcAddress": "10.10.1.100",
+                     "srcPort": 52000,
+                     "destAddress": "192.168.50.10",
+                     "destPort": 22,
+                     "destPrefix": "192.168.50.0/24",
+                     "nextHop": "10.10.1.1",
+                     "interface": "GE1",
+                     "protocol": "TCP",
+                     "bytesRx": 65536,
+                     "bytesTx": 32768,
+                     "packetsRx": 512,
+                     "packetsTx": 256,
+                     "totalBytes": 98304,
+                     "totalPackets": 768,
+                     "startTime": "2026-04-08T10:00:00.000Z",
+                     "endTime": "2026-04-08T10:05:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns per-flow statistics for a specific Edge in a time window. Each entry includes src/dest addresses, next hop, interface, byte/packet counters. Useful for forwarding table, ARP, and interface performance collection.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Per-edge flow-level stats. Requires enterpriseLogicalId from CALL-001 and edgeLogicalId from CALL-003. Use start/end query params for time windowing."
+         }
+      },
+      {
+         "callId": "CALL-003",
+         "enabled": 1,
+         "operationId": "v2_get_edge_non_sdwan_tunnel_status",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/nonSdWanTunnelStatus",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include"
+            ]
+         },
+         "plugins": [
+            "Devices",
+            "bsnAPTable"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/nonSdWanTunnelStatus",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 7001,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "name": "AWS-VPN-Tunnel-1",
+                     "tunnelType": "IPSEC",
+                     "localIp": "198.51.100.10",
+                     "peerIp": "52.10.200.1",
+                     "status": "UP",
+                     "statusSince": "2026-04-01T06:00:00.000Z",
+                     "remoteSubnets": [
+                        "172.16.0.0/16",
+                        "10.200.0.0/16"
+                     ],
+                     "ikeVersion": "IKEv2",
+                     "ikeState": "ESTABLISHED",
+                     "ipsecState": "ESTABLISHED",
+                     "bytesRx": 2147483648,
+                     "bytesTx": 1073741824,
+                     "lastContact": "2026-04-09T08:30:00.000Z"
+                  },
+                  {
+                     "id": 7002,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "name": "Azure-VPN-Tunnel-1",
+                     "tunnelType": "IPSEC",
+                     "localIp": "198.51.100.10",
+                     "peerIp": "40.85.120.5",
+                     "status": "DOWN",
+                     "statusSince": "2026-04-08T22:15:00.000Z",
+                     "remoteSubnets": [
+                        "10.100.0.0/16"
+                     ],
+                     "ikeVersion": "IKEv2",
+                     "ikeState": "DOWN",
+                     "ipsecState": "DOWN",
+                     "bytesRx": 0,
+                     "bytesTx": 0,
+                     "lastContact": "2026-04-08T22:15:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns non-SD-WAN tunnel (IPsec/GRE) status per edge. Includes tunnel state, peer IP, remote subnets, IKE/IPsec states, and byte counters. Useful for device neighbor discovery via tunnel peering.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Non-SD-WAN tunnel status per edge. Maps to Devices and bsnAPTable plugins for tunnel-connected device visibility."
+         }
+      },
+      {
+         "callId": "CALL-004",
+         "enabled": 1,
+         "operationId": "v2_get_edge_qos",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/qos",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include"
+            ]
+         },
+         "plugins": [
+            "DeviceProperty"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/qos",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 3001,
+                     "edgeId": 100,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "linkId": 10,
+                     "linkName": "MPLS-Primary",
+                     "linkType": "WIRED",
+                     "bandwidthUp": 100,
+                     "bandwidthDown": 200,
+                     "cosMapping": {
+                        "realtime": { "bandwidthPct": 30, "priority": "high" },
+                        "transactional": { "bandwidthPct": 40, "priority": "normal" },
+                        "bulk": { "bandwidthPct": 20, "priority": "low" },
+                        "bestEffort": { "bandwidthPct": 10, "priority": "low" }
+                     },
+                     "queueDepth": 256,
+                     "schedulerType": "WRR"
+                  },
+                  {
+                     "id": 3002,
+                     "edgeId": 100,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "linkId": 11,
+                     "linkName": "Internet-Broadband",
+                     "linkType": "WIRED",
+                     "bandwidthUp": 50,
+                     "bandwidthDown": 100,
+                     "cosMapping": {
+                        "realtime": { "bandwidthPct": 25, "priority": "high" },
+                        "transactional": { "bandwidthPct": 35, "priority": "normal" },
+                        "bulk": { "bandwidthPct": 25, "priority": "low" },
+                        "bestEffort": { "bandwidthPct": 15, "priority": "low" }
+                     },
+                     "queueDepth": 128,
+                     "schedulerType": "WRR"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns QoS configuration per edge link. Includes bandwidth allocations, CoS mapping with priority classes, queue depth, and scheduler type. Maps to DeviceProperty for key-value storage of QoS settings.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "QoS config per edge. Stored as device-level properties via DeviceProperty plugin."
+         }
+      },
+      {
+         "callId": "CALL-005",
+         "enabled": 1,
+         "operationId": "v2_get_edge_linkQualityStats",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "plugins": [
+            "RoutingPerfObject"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/linkQualityStats?start=2026-04-08T00:00:00Z&end=2026-04-09T00:00:00Z",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 9001,
+                     "edgeId": 100,
+                     "linkId": 10,
+                     "linkName": "MPLS-Primary",
+                     "linkType": "WIRED",
+                     "latencyMs": 12.5,
+                     "jitterMs": 2.1,
+                     "packetLossPct": 0.01,
+                     "bandwidthRx": 185000000,
+                     "bandwidthTx": 92000000,
+                     "scoreRx": 4.8,
+                     "scoreTx": 4.7,
+                     "overallScore": 4.75,
+                     "startTime": "2026-04-08T10:00:00.000Z",
+                     "endTime": "2026-04-08T10:05:00.000Z"
+                  },
+                  {
+                     "id": 9002,
+                     "edgeId": 100,
+                     "linkId": 11,
+                     "linkName": "Internet-Broadband",
+                     "linkType": "WIRED",
+                     "latencyMs": 35.0,
+                     "jitterMs": 8.3,
+                     "packetLossPct": 0.15,
+                     "bandwidthRx": 95000000,
+                     "bandwidthTx": 47000000,
+                     "scoreRx": 3.9,
+                     "scoreTx": 3.8,
+                     "overallScore": 3.85,
+                     "startTime": "2026-04-08T10:00:00.000Z",
+                     "endTime": "2026-04-08T10:05:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns link quality metrics per edge link including latency, jitter, packet loss, and quality scores. Maps to RoutingPerfObject for link-level performance tracking.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Link quality stats per edge. Use start/end time params for windowing. Feeds RoutingPerfObject for SLA monitoring."
+         }
+      },
+      {
+         "callId": "CALL-006",
+         "enabled": 1,
+         "operationId": "v2_list_enterprise_client_devices",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "plugins": [
+            "SdnEndpoint",
+            "bsnMobileStationTable"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/clientDevices",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 1000,
+                     "logicalId": "client-001-a3b4-uuid",
+                     "name": "LAPTOP-JSmith",
+                     "vendor": "Dell",
+                     "model": "Latitude 5530",
+                     "serialNumber": "DL5530-SN1001",
+                     "ipAddress": "10.20.30.40",
+                     "macAddress": "AA:BB:CC:DD:EE:01",
+                     "operatingSystem": "Windows",
+                     "osVersion": "11 Pro 23H2",
+                     "deviceType": "LAPTOP",
+                     "hostname": "LAPTOP-JSmith.acme.local",
+                     "vlan": 100,
+                     "lastActive": "2026-04-09T08:15:00.000Z",
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "siteId": 200,
+                     "siteName": "NYC-Office"
+                  },
+                  {
+                     "id": 1001,
+                     "logicalId": "client-002-c5d6-uuid",
+                     "name": "IP-Phone-Lobby",
+                     "vendor": "Cisco",
+                     "model": "CP-8845",
+                     "serialNumber": "CP8845-SN2002",
+                     "ipAddress": "10.20.31.15",
+                     "macAddress": "AA:BB:CC:DD:EE:02",
+                     "operatingSystem": "Cisco Phone",
+                     "osVersion": "14.1.1",
+                     "deviceType": "VOIP_PHONE",
+                     "hostname": "IP-Phone-Lobby",
+                     "vlan": 200,
+                     "lastActive": "2026-04-09T07:45:00.000Z",
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "siteId": 200,
+                     "siteName": "NYC-Office"
+                  },
+                  {
+                     "id": 1002,
+                     "logicalId": "client-003-e7f8-uuid",
+                     "name": "Printer-Floor3",
+                     "vendor": "HP",
+                     "model": "LaserJet Pro M404n",
+                     "serialNumber": "HP404N-SN3003",
+                     "ipAddress": "10.20.32.5",
+                     "macAddress": "AA:BB:CC:DD:EE:03",
+                     "operatingSystem": null,
+                     "osVersion": null,
+                     "deviceType": "PRINTER",
+                     "hostname": "Printer-Floor3",
+                     "vlan": 300,
+                     "lastActive": "2026-04-08T23:30:00.000Z",
+                     "edgeId": 101,
+                     "edgeName": "Branch-Edge-NYC-02",
+                     "siteId": 200,
+                     "siteName": "NYC-Office"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 3
+               }
+            },
+            "responseNotes": "Returns client devices (hosts) seen in Edge traffic flows. Each record links back to the Edge and Site that reported it. Includes MAC, IP, hostname, VLAN, vendor, and OS. Paginated via metaData.nextPageLink.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Client device inventory per enterprise. Requires enterpriseLogicalId from CALL-001. Feeds SdnEndpoint and bsnMobileStationTable."
+         }
+      },
+      {
+         "callId": "CALL-007",
+         "enabled": 1,
+         "operationId": "v2_get_edge_healthStats",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "plugins": [
+            "DeviceCpuStats",
+            "DeviceMemStats",
+            "Environmental"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/healthStats?start=2026-04-08T00:00:00Z&end=2026-04-09T00:00:00Z",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 20001,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "cpuPct": 42.5,
+                     "cpuCoreCount": 4,
+                     "cpuPerCore": [
+                        { "coreIndex": 0, "usagePct": 38.2 },
+                        { "coreIndex": 1, "usagePct": 45.1 },
+                        { "coreIndex": 2, "usagePct": 40.8 },
+                        { "coreIndex": 3, "usagePct": 45.9 }
+                     ],
+                     "memoryUsageMB": 3072,
+                     "memoryTotalMB": 8192,
+                     "memoryFreeMB": 5120,
+                     "memoryPct": 37.5,
+                     "diskUsagePct": 28.0,
+                     "diskTotalGB": 120,
+                     "diskFreeGB": 86.4,
+                     "tunnelCount": 15,
+                     "flowCount": 4200,
+                     "handoffQueueDrops": 0,
+                     "overallStatus": "HEALTHY",
+                     "startTime": "2026-04-08T10:00:00.000Z",
+                     "endTime": "2026-04-08T10:05:00.000Z"
+                  },
+                  {
+                     "id": 20002,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "cpuPct": 55.3,
+                     "cpuCoreCount": 4,
+                     "cpuPerCore": [
+                        { "coreIndex": 0, "usagePct": 50.1 },
+                        { "coreIndex": 1, "usagePct": 58.4 },
+                        { "coreIndex": 2, "usagePct": 54.2 },
+                        { "coreIndex": 3, "usagePct": 58.5 }
+                     ],
+                     "memoryUsageMB": 3584,
+                     "memoryTotalMB": 8192,
+                     "memoryFreeMB": 4608,
+                     "memoryPct": 43.75,
+                     "diskUsagePct": 28.5,
+                     "diskTotalGB": 120,
+                     "diskFreeGB": 85.8,
+                     "tunnelCount": 15,
+                     "flowCount": 5800,
+                     "handoffQueueDrops": 2,
+                     "overallStatus": "HEALTHY",
+                     "startTime": "2026-04-08T14:00:00.000Z",
+                     "endTime": "2026-04-08T14:05:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns health statistics per edge in a time window. Includes CPU usage (total + per-core), memory (used/free/total in MB), disk usage, tunnel/flow counts. Feeds DeviceCpuStats, DeviceMemStats, Environmental plugins.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Primary health/performance endpoint per edge. Provides CPU, memory, and disk metrics. Use start/end for time windowing."
+         }
+      },
+      {
+         "callId": "CALL-008",
+         "enabled": 1,
+         "operationId": "v2_get_enterprise_bgp_sessions",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/bgpSessions",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit"
+            ]
+         },
+         "plugins": [
+            "LLDP",
+            "bgpPeerTable"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/bgpSessions",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 8001,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "edgeLogicalId": "ca607949-0263-4bc7-afb0-d37a165da82c",
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "neighborIp": "10.10.1.254",
+                     "neighborAs": 65001,
+                     "localIp": "10.10.1.1",
+                     "localAs": 65100,
+                     "state": "ESTABLISHED",
+                     "uptime": 864000,
+                     "prefixesReceived": 120,
+                     "prefixesAdvertised": 45,
+                     "localPort": 179,
+                     "remotePort": 44500,
+                     "lastStateChange": "2026-03-30T08:00:00.000Z",
+                     "created": "2026-01-15T10:00:00.000Z"
+                  },
+                  {
+                     "id": 8002,
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "edgeLogicalId": "ca607949-0263-4bc7-afb0-d37a165da82c",
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "neighborIp": "10.10.2.254",
+                     "neighborAs": 65002,
+                     "localIp": "10.10.2.1",
+                     "localAs": 65100,
+                     "state": "IDLE",
+                     "uptime": 0,
+                     "prefixesReceived": 0,
+                     "prefixesAdvertised": 0,
+                     "localPort": 179,
+                     "remotePort": 0,
+                     "lastStateChange": "2026-04-08T18:30:00.000Z",
+                     "created": "2026-02-20T12:00:00.000Z"
+                  },
+                  {
+                     "id": 8003,
+                     "edgeId": 102,
+                     "edgeName": "Branch-Edge-CHI-01",
+                     "edgeLogicalId": "d9e8f7a6-5b4c-3d2e-1f09-a8b7c6d5e4f3",
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "neighborIp": "172.16.1.254",
+                     "neighborAs": 65010,
+                     "localIp": "172.16.1.1",
+                     "localAs": 65100,
+                     "state": "ESTABLISHED",
+                     "uptime": 432000,
+                     "prefixesReceived": 85,
+                     "prefixesAdvertised": 45,
+                     "localPort": 179,
+                     "remotePort": 51234,
+                     "lastStateChange": "2026-04-04T08:00:00.000Z",
+                     "created": "2026-03-01T14:00:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 3
+               }
+            },
+            "responseNotes": "Returns all BGP sessions across the enterprise. Each entry includes neighbor IP/AS, local IP/AS, state, uptime, prefix counts. Links to specific edge via edgeId/edgeLogicalId. Feeds bgpPeerTable and LLDP for neighbor discovery.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Enterprise-wide BGP session table. Provides neighbor peering for topology and BGP state for bgpPeerTable plugin. Requires enterpriseLogicalId from CALL-001."
+         }
+      },
+      {
+         "callId": "CALL-009",
+         "enabled": 1,
+         "operationId": "v2_get_edge_firewallIdpsStats",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId",
+               "edgeLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "plugins": [
+            "Firewall"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/edges/ca607949-0263-4bc7-afb0-d37a165da82c/firewallIdpsStats?start=2026-04-08T00:00:00Z&end=2026-04-09T00:00:00Z",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 40001,
+                     "edgeId": 100,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "ruleName": "Allow-Corp-Traffic",
+                     "ruleId": 1,
+                     "action": "ALLOW",
+                     "sourceAddress": "10.10.0.0/16",
+                     "destAddress": "0.0.0.0/0",
+                     "sourcePort": "*",
+                     "destPort": "*",
+                     "protocol": "ANY",
+                     "hitCount": 152340,
+                     "bytesMatched": 4294967296,
+                     "startTime": "2026-04-08T00:00:00.000Z",
+                     "endTime": "2026-04-09T00:00:00.000Z"
+                  },
+                  {
+                     "id": 40002,
+                     "edgeId": 100,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "ruleName": "Block-Malicious-IPs",
+                     "ruleId": 5,
+                     "action": "DROP",
+                     "sourceAddress": "0.0.0.0/0",
+                     "destAddress": "198.51.100.0/24",
+                     "sourcePort": "*",
+                     "destPort": "*",
+                     "protocol": "ANY",
+                     "hitCount": 847,
+                     "bytesMatched": 98304,
+                     "startTime": "2026-04-08T00:00:00.000Z",
+                     "endTime": "2026-04-09T00:00:00.000Z"
+                  },
+                  {
+                     "id": 40003,
+                     "edgeId": 100,
+                     "segmentId": 0,
+                     "segmentName": "Global Segment",
+                     "ruleName": "Default-Deny",
+                     "ruleId": 999,
+                     "action": "DENY",
+                     "sourceAddress": "0.0.0.0/0",
+                     "destAddress": "0.0.0.0/0",
+                     "sourcePort": "*",
+                     "destPort": "*",
+                     "protocol": "ANY",
+                     "hitCount": 3254,
+                     "bytesMatched": 524288,
+                     "startTime": "2026-04-08T00:00:00.000Z",
+                     "endTime": "2026-04-09T00:00:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 3
+               }
+            },
+            "responseNotes": "Returns firewall/IDP stats per edge. Each entry includes rule name, action (ALLOW/DROP/DENY), source/dest address/port, protocol, hit count, and bytes matched in the time window. Maps to Firewall plugin.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Firewall rule hit statistics per edge. Useful for security posture visibility. Requires edge-level path params."
+         }
+      },
+      {
+         "callId": "CALL-010",
+         "enabled": 1,
+         "operationId": "v2_get_enterprise_flowStats",
+         "method": "get",
+         "path": "/api/sdwan/v2/enterprises/{enterpriseLogicalId}/flowStats",
+         "parameters": {
+            "body": 0,
+            "path": [
+               "enterpriseLogicalId"
+            ],
+            "query": [
+               "include",
+               "nextPageLink",
+               "prevPageLink",
+               "limit",
+               "start",
+               "end"
+            ]
+         },
+         "plugins": [
+            "SdnNetworks"
+         ],
+         "customerData": {
+            "sampleRequest": "GET /api/sdwan/v2/enterprises/a980c178-6c32-45ca-aaf9-1c74d441eb69/flowStats?start=2026-04-08T00:00:00Z&end=2026-04-09T00:00:00Z",
+            "sampleResponse": {
+               "data": [
+                  {
+                     "id": 60001,
+                     "enterpriseId": 1,
+                     "enterpriseName": "Acme Corp",
+                     "edgeId": 100,
+                     "edgeName": "Branch-Edge-NYC-01",
+                     "linkId": 10,
+                     "linkName": "MPLS-Primary",
+                     "appId": 5,
+                     "appName": "HTTPS",
+                     "category": "WEB",
+                     "bytesRx": 10737418240,
+                     "bytesTx": 5368709120,
+                     "packetsRx": 8388608,
+                     "packetsTx": 4194304,
+                     "totalBytes": 16106127360,
+                     "totalPackets": 12582912,
+                     "flowCount": 15000,
+                     "startTime": "2026-04-08T00:00:00.000Z",
+                     "endTime": "2026-04-09T00:00:00.000Z"
+                  },
+                  {
+                     "id": 60002,
+                     "enterpriseId": 1,
+                     "enterpriseName": "Acme Corp",
+                     "edgeId": 101,
+                     "edgeName": "Branch-Edge-NYC-02",
+                     "linkId": 20,
+                     "linkName": "Internet-Primary",
+                     "appId": 5,
+                     "appName": "HTTPS",
+                     "category": "WEB",
+                     "bytesRx": 5368709120,
+                     "bytesTx": 2684354560,
+                     "packetsRx": 4194304,
+                     "packetsTx": 2097152,
+                     "totalBytes": 8053063680,
+                     "totalPackets": 6291456,
+                     "flowCount": 8500,
+                     "startTime": "2026-04-08T00:00:00.000Z",
+                     "endTime": "2026-04-09T00:00:00.000Z"
+                  }
+               ],
+               "metaData": {
+                  "limit": 100,
+                  "nextPageLink": null,
+                  "total": 2
+               }
+            },
+            "responseNotes": "Returns enterprise-wide aggregated flow stats. Each entry includes enterprise/edge/link names, application details, and aggregate byte/packet/flow counters. Used for SdnNetworks to provide network-level traffic visibility.",
+            "collectedAt": "2026-04-09"
+         },
+         "review": {
+            "action": "keep",
+            "status": "Approved",
+            "notes": "Enterprise-wide flow stats. Provides network-level traffic for SdnNetworks. Requires enterpriseLogicalId from CALL-001."
+         }
+      }
+   ],
+   "stats": {
+      "totalPlugins": 37,
+      "matchedPlugins": 25,
+      "selectedOperations": 10,
+      "skippedPlugins": 12
+   },
+   "skippedPlugins": [
+      "CDP",
+      "DeviceContext",
+      "VlanObject",
+      "VlanTrunkPortTable",
+      "Vrf",
+      "VrfHasInterface",
+      "VrfHasRTCommunity",
+      "VrfRoute",
+      "dot1dBasePortTable",
+      "hrStorageTable",
+      "ifStatus",
+      "ipRouteTable"
+   ]
+}

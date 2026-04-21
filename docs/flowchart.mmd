@@ -1,0 +1,56 @@
+graph TD
+    A0["User Provides<br/>OpenAPI Specification<br/>(YAML or JSON)"] --> A1["Agent Parses OpenAPI Spec"]
+    
+    A1 --> B["Step 1: Identify API Calls<br/>& Generate Payload JSON<br/>(Map API operations to SDN plugins)"]
+    
+    B --> B1["Payload JSON Created<br/>(with empty customerData)"]
+    
+    B1 --> C0["User Reviews<br/>Identified API Calls"]
+    C0 --> C1["User Shares API Calls<br/>with Customer"]
+    C1 --> C2["Customer Provides<br/>Actual API Responses"]
+    C2 --> C3["User Fills<br/>customerData.sampleResponse<br/>in Payload JSON"]
+    
+    C3 --> C{"Review Gate:<br/>customerData Filled?"}
+    C -->|Yes| D["Filled Payload JSON<br/>(Source of Truth)"]
+    C -->|Needs More Data| C1
+    
+    D --> E["Step 2: Generate Perl Modules<br/>(Client + Controller)"]
+    
+    E --> F["Generated Controller<br/>(e.g., Output/SDN/Vendor.pm)"]
+    E --> F2["Generated Client<br/>(e.g., Output/Client/Vendor.pm)"]
+    
+    F --> G["Load SDN Devices<br/>from Database"]
+    
+    G --> H["Call obtainEverything<br/>(Orchestration Entry)"]
+    
+    H --> I["Stage 1: Organization Discovery<br/>(obtainOrganizationsAndNetworks)"]
+    
+    I --> J["For Each Organization"]
+    J --> K["Extract org_id from<br/>SdnDeviceDN"]
+    K --> L["Call Vendor API<br/>getOrganizations"]
+    L --> M["Save Org Data<br/>via Plugin System"]
+    
+    M --> N["Stage 2: Device Discovery<br/>(getDevices)"]
+    
+    N --> O["For Each Organization<br/>and Site Context"]
+    O --> P["Extract org_id + site_id<br/>from SdnDeviceDN"]
+    P --> Q["Call Vendor API<br/>getDevices"]
+    Q --> R["Save Device Data<br/>via Plugin System"]
+    
+    R --> S["Stage 3: Per-Device Collection<br/>(obtainSystemInfo, etc.)"]
+    
+    S --> T["For Each Device"]
+    T --> U["Build Context:<br/>org_id, site_id, device_id"]
+    U --> V["Call Vendor API<br/>(multiple endpoints)"]
+    V --> W["Transform & Save Results<br/>via Plugin System"]
+    
+    W --> X["Collection Complete"]
+    
+    style A0 fill:#e1f5ff
+    style B1 fill:#fff3e0
+    style C3 fill:#fff3e0
+    style D fill:#c8e6c9
+    style F fill:#fff9c4
+    style F2 fill:#fff9c4
+    style H fill:#f8bbd0
+    style X fill:#c8e6c9
