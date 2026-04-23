@@ -1,0 +1,1219 @@
+openapi: 3.0.3
+info:
+  title: VMware VeloCloud SD-WAN Orchestrator API v2
+  version: 6.4.0
+  description: 'OpenAPI 3.0 specification for VeloCloud SD-WAN Orchestrator v2 REST API (GET endpoints only).
+
+    Generated from the VC-SD-WAN 6.4 Orchestrator OpenAPI Guide.
+
+
+    All list endpoints return paginated responses wrapped in {data: [...], metaData: {nextPageLink, total}}.
+
+    Use the ''include'' query parameter for graph traversal (e.g., include=site.* to resolve nested site attributes).'
+  contact:
+    name: VeloCloud API
+    url: https://developer.vmware.com/apis/velocloud-sdwan/
+servers:
+- url: https://{orchestrator}
+  description: VeloCloud Orchestrator
+  variables:
+    orchestrator:
+      default: vco.velocloud.net
+      description: VeloCloud Orchestrator hostname
+security:
+- tokenAuth: []
+paths:
+  /api/sdwan/v2/applicationMaps/{logicalId}:
+    get:
+      operationId: v2_get_application_map
+      summary: Fetch application map resource
+      description: '[OPERATOR ONLY] Fetch application map resource.'
+      tags:
+      - ApplicationMaps
+      parameters:
+      - &id001
+        name: logicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the application map
+      - &id002
+        name: include
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Comma-separated list of linked resource field names to resolve (supports wildcard *).
+      responses:
+        '200': &id011
+          description: Request successfully processed
+          content:
+            application/json:
+              schema:
+                type: object
+        '401': &id003
+          description: Unauthorized
+        '404': &id004
+          description: Resource not found
+        '429': &id005
+          description: Rate limit exceeded
+        '500': &id006
+          description: Internal server error
+  /api/sdwan/v2/applicationMaps/{logicalId}/applicationClasses:
+    get:
+      operationId: v2_get_application_map_classes
+      summary: Fetch application classes
+      tags:
+      - ApplicationMaps
+      parameters:
+      - *id001
+      - *id002
+      - &id007
+        name: nextPageLink
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response metaData.nextPageLink.
+      - &id008
+        name: prevPageLink
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Pagination cursor from a previous response metaData.prevPageLink.
+      - &id009
+        name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+        description: Maximum number of results to return.
+      responses:
+        '200': &id010
+          description: Request successfully processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedResponse'
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/applicationMaps/{logicalId}/applications:
+    get:
+      operationId: v2_list_application_map_applications
+      summary: List applications for an application map
+      description: '[OPERATOR ONLY] List applications associated with an application map.'
+      tags:
+      - ApplicationMaps
+      parameters:
+      - *id001
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/applicationMaps/{logicalId}/applications/{appId}:
+    get:
+      operationId: v2_get_application_map_application
+      summary: Fetch a single application from a map
+      tags:
+      - ApplicationMaps
+      parameters:
+      - *id001
+      - &id013
+        name: appId
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: Application identifier
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/:
+    get:
+      operationId: v2_list_enterprises
+      summary: List Customers
+      description: Gets all enterprises (customers) visible to the authenticated user. Supports pagination, sorting, and filtering
+        by name/accountNumber/domain.
+      tags:
+      - Customers
+      parameters:
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/:
+    get:
+      operationId: v2_get_enterprise
+      summary: Fetch a Customer
+      description: Get details for a single enterprise by logicalId.
+      tags:
+      - Customers
+      parameters:
+      - &id012
+        name: enterpriseLogicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the target enterprise
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/alerts:
+    get:
+      operationId: v2_get_enterprise_alerts
+      summary: Fetch enterprise alerts
+      description: Fetch past triggered alerts for the specified enterprise.
+      tags:
+      - Alerts
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - &id015
+        name: start
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Query interval start (13-digit epoch ms).
+      - &id016
+        name: end
+        in: query
+        required: false
+        schema:
+          type: integer
+        description: Query interval end (13-digit epoch ms).
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/applications:
+    get:
+      operationId: v2_get_enterprise_applications
+      summary: Fetch enterprise applications
+      description: Fetch applications for the specified enterprise.
+      tags:
+      - Applications
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/applications/{appId}:
+    get:
+      operationId: v2_get_enterprise_application
+      summary: Fetch a single enterprise application
+      tags:
+      - Applications
+      parameters:
+      - *id012
+      - *id013
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/bgpSessions:
+    get:
+      operationId: v2_get_enterprise_bgp_sessions
+      summary: Get BGP peering session state
+      description: Get BGP peering session state for the enterprise.
+      tags:
+      - BGP
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices:
+    get:
+      operationId: v2_list_enterprise_client_devices
+      summary: Fetch all client devices
+      description: Fetch all client devices (hosts seen in Edge traffic flows) for the enterprise.
+      tags:
+      - ClientDevices
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/clientDevices/{logicalId}:
+    get:
+      operationId: v2_get_enterprise_client_device
+      summary: Fetch a single client device
+      tags:
+      - ClientDevices
+      parameters:
+      - *id012
+      - name: logicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: logicalId GUID of the client device
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edgeNonSdwanServices/status:
+    get:
+      operationId: v2_get_enterprise_edge_non_sdwan_services_status
+      summary: Fetch Edge non-SD-WAN services status
+      tags:
+      - Edges
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/:
+    get:
+      operationId: v2_list_enterprise_edges
+      summary: List Customer Edges
+      description: Gets all Edges associated with the specified enterprise. Use include=site.* to resolve site details.
+      tags:
+      - Edges
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/:
+    get:
+      operationId: v2_get_enterprise_edge
+      summary: Fetch a single Edge
+      description: Get details for a specific Edge.
+      tags:
+      - Edges
+      parameters:
+      - *id012
+      - &id014
+        name: edgeLogicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the target edge
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/applications:
+    get:
+      operationId: v2_get_edge_applications
+      summary: Fetch Edge applications
+      tags:
+      - Edges
+      - Applications
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/applications/{appId}:
+    get:
+      operationId: v2_get_edge_application
+      summary: Fetch a single Edge application
+      tags:
+      - Edges
+      - Applications
+      parameters:
+      - *id012
+      - *id014
+      - *id013
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/deviceSettings:
+    get:
+      operationId: v2_get_edge_device_settings
+      summary: Edge-specific device settings
+      description: Edge-specific device settings module response spec.
+      tags:
+      - Edges
+      - Configure
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats:
+    get:
+      operationId: v2_get_edge_firewallIdpsStats
+      summary: Fetch Edge firewall IDP statistics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallIdpsStats/timeSeries:
+    get:
+      operationId: v2_get_edge_firewallIdpsStats_time_series
+      summary: Fetch Edge firewall IDP statistics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/firewallMaliciousIpMetrics:
+    get:
+      operationId: v2_get_edge_firewallMaliciousIpMetrics
+      summary: Fetch Edge firewall malicious IP metrics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats:
+    get:
+      operationId: v2_get_edge_flowStats
+      summary: Fetch Edge flow statistics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/flowStats/timeSeries:
+    get:
+      operationId: v2_get_edge_flowStats_time_series
+      summary: Fetch Edge flow statistics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats:
+    get:
+      operationId: v2_get_edge_healthStats
+      summary: Fetch Edge health metrics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/healthStats/timeSeries:
+    get:
+      operationId: v2_get_edge_healthStats_time_series
+      summary: Fetch Edge health metrics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats:
+    get:
+      operationId: v2_get_edge_linkQualityStats
+      summary: Fetch Edge link quality metrics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkQualityStats/timeSeries:
+    get:
+      operationId: v2_get_edge_linkQualityStats_time_series
+      summary: Fetch Edge link quality metrics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkStats:
+    get:
+      operationId: v2_get_edge_linkStats
+      summary: Fetch Edge WAN link transport metrics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/linkStats/timeSeries:
+    get:
+      operationId: v2_get_edge_linkStats_time_series
+      summary: Fetch Edge WAN link transport metrics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/nonSdWanTunnelStatus:
+    get:
+      operationId: v2_get_edge_non_sdwan_tunnel_status
+      summary: Fetch Edge Non-SD-WAN tunnel status
+      tags:
+      - Edges
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/pathStats:
+    get:
+      operationId: v2_get_edge_pathStats
+      summary: Fetch Edge path statistics
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/pathStats/timeSeries:
+    get:
+      operationId: v2_get_edge_pathStats_time_series
+      summary: Fetch Edge path statistics (time series)
+      tags:
+      - Edges
+      - Monitor
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/edges/{edgeLogicalId}/qos:
+    get:
+      operationId: v2_get_edge_qos
+      summary: Fetch Edge QoS configuration
+      tags:
+      - Edges
+      - Configure
+      parameters:
+      - *id012
+      - *id014
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/events:
+    get:
+      operationId: v2_get_enterprise_events
+      summary: Fetch enterprise events
+      description: Fetch time-ordered list of events for the enterprise.
+      tags:
+      - Events
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallEdgeCountMetrics:
+    get:
+      operationId: v2_get_enterprise_firewallEdgeCountMetrics
+      summary: Fetch firewall edge count metrics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallEdgeSummaryMetrics:
+    get:
+      operationId: v2_get_enterprise_firewallEdgeSummaryMetrics
+      summary: Fetch firewall edge summary metrics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallIdpsStats:
+    get:
+      operationId: v2_get_enterprise_firewallIdpsStats
+      summary: Fetch enterprise firewall IDP statistics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallMaliciousIpMetrics:
+    get:
+      operationId: v2_get_enterprise_firewallMaliciousIpMetrics
+      summary: Fetch enterprise firewall malicious IP metrics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallUrlFilteringCategoryMetrics:
+    get:
+      operationId: v2_get_enterprise_firewallUrlFilteringCategoryMetrics
+      summary: Fetch enterprise URL filtering category metrics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/firewallUrlFilteringReputationMetrics:
+    get:
+      operationId: v2_get_enterprise_firewallUrlFilteringReputationMetrics
+      summary: Fetch enterprise URL filtering reputation metrics
+      tags:
+      - Firewall
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/flowStats:
+    get:
+      operationId: v2_get_enterprise_flowStats
+      summary: Fetch enterprise-global network flow summary statistics
+      tags:
+      - Monitor
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/gatewayNonSdWanSites:
+    get:
+      operationId: v2_get_enterprise_gateway_non_sdwan_sites
+      summary: Fetch gateway non-SD-WAN sites
+      tags:
+      - NetworkServices
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/healthStats:
+    get:
+      operationId: v2_get_enterprise_healthStats
+      summary: Fetch aggregate Edge health metrics for all Edges
+      tags:
+      - Monitor
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/linkStats:
+    get:
+      operationId: v2_get_enterprise_linkStats
+      summary: Fetch aggregate WAN link transport metrics for all Customer links
+      tags:
+      - Monitor
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/nniStats:
+    get:
+      operationId: v2_get_enterprise_nniStats
+      summary: Fetch all Gateway NNI metrics for the customer
+      tags:
+      - Monitor
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/nniStats/timeSeries:
+    get:
+      operationId: v2_get_enterprise_nniStats_time_series
+      summary: Fetch enterprise NNI metrics (time series)
+      tags:
+      - Monitor
+      parameters:
+      - *id012
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      - *id015
+      - *id016
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/profiles/{profileLogicalId}/deviceSettings:
+    get:
+      operationId: v2_get_profile_device_settings
+      summary: Fetch profile device settings
+      tags:
+      - Configure
+      parameters:
+      - *id012
+      - &id017
+        name: profileLogicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the configuration profile
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/enterprises/{enterpriseLogicalId}/profiles/{profileLogicalId}/qos:
+    get:
+      operationId: v2_get_profile_qos
+      summary: Fetch profile QoS configuration
+      tags:
+      - Configure
+      parameters:
+      - *id012
+      - *id017
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/gateways/{gatewayLogicalId}/eligibleEnterprisesForMigration:
+    get:
+      operationId: v2_get_gateway_eligible_enterprises
+      summary: Fetch enterprises eligible for gateway migration
+      tags:
+      - GatewayMigration
+      parameters:
+      - &id018
+        name: gatewayLogicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the target gateway
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/gateways/{gatewayLogicalId}/eligibleGreenGatewaysForMigration:
+    get:
+      operationId: v2_get_gateway_eligible_green_gateways
+      summary: Fetch eligible green gateways for migration
+      tags:
+      - GatewayMigration
+      parameters:
+      - *id018
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/gateways/{gatewayLogicalId}/migrations:
+    get:
+      operationId: v2_list_gateway_migrations
+      summary: Fetch gateway migration jobs
+      description: Fetch the Hitless Gateway migration jobs with this gateway as the Blue gateway.
+      tags:
+      - GatewayMigration
+      parameters:
+      - *id018
+      - *id002
+      - *id007
+      - *id008
+      - *id009
+      responses:
+        '200': *id010
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/gateways/{gatewayLogicalId}/migrations/{migrationLogicalId}:
+    get:
+      operationId: v2_get_gateway_migration
+      summary: Fetch a single migration job
+      tags:
+      - GatewayMigration
+      parameters:
+      - *id018
+      - &id019
+        name: migrationLogicalId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: The logicalId GUID for the migration job
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+  /api/sdwan/v2/gateways/{gatewayLogicalId}/migrations/{migrationLogicalId}/stats:
+    get:
+      operationId: v2_get_gateway_migration_stats
+      summary: Fetch migration job statistics
+      tags:
+      - GatewayMigration
+      parameters:
+      - *id018
+      - *id019
+      - *id002
+      responses:
+        '200': *id011
+        '401': *id003
+        '404': *id004
+        '429': *id005
+        '500': *id006
+components:
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token-based auth. Value format: ''Token <token-value>'' obtained from POST /login/enterpriseLogin'
+  schemas:
+    PaginatedResponse:
+      type: object
+      description: Standard v2 paginated response wrapper.
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+          description: Array of result objects.
+        metaData:
+          type: object
+          properties:
+            limit:
+              type: integer
+              description: Page size used.
+            nextPageLink:
+              type: string
+              nullable: true
+              description: Cursor token for next page (null if last page).
+            prevPageLink:
+              type: string
+              nullable: true
+              description: Cursor token for previous page.
+            total:
+              type: integer
+              description: Total matching records.
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+tags:
+- name: Alerts
+  description: Customer alert triggers and stateful alarms
+- name: ApplicationMaps
+  description: Operator-level application maps and classifications
+- name: Applications
+  description: Enterprise and Edge applications
+- name: BGP
+  description: BGP peering session state
+- name: ClientDevices
+  description: Client devices (hosts) seen in Edge traffic flows
+- name: Configure
+  description: Device settings and QoS configuration (profiles and edges)
+- name: Customers
+  description: Enterprise/Customer management and provisioning
+- name: Edges
+  description: SD-WAN Edge devices — inventory, config, and status
+- name: Events
+  description: Enterprise events log
+- name: Firewall
+  description: Firewall statistics, IDP, URL filtering, and malicious IP metrics
+- name: GatewayMigration
+  description: Hitless Gateway migration operations
+- name: Monitor
+  description: Flow, health, link, and NNI statistics
+- name: NetworkServices
+  description: Non-SD-WAN sites and services
